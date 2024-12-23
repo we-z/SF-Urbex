@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = VideoFeedViewModel()
-    
+    @StateObject private var cloudKitManager = CloudKitManager()
 //    init() {
 //        UITabBar.appearance().backgroundColor = UIColor.systemGray6
 //    }
@@ -24,7 +23,7 @@ struct ContentView: View {
                 }
 
             // Upload Tab
-            VideoUploadView(viewModel: viewModel)
+            UploadVideoView(cloudKitManager: cloudKitManager)
                 .tabItem {
                     Image(systemName: "plus.app")
 //                    Text("Upload")
@@ -37,7 +36,7 @@ struct ContentView: View {
 //                    Text("Profile")
                 }
         }
-        .accentColor(.white)
+        .accentColor(.primary)
 //        .onAppear {
 //            let appearance = UITabBarAppearance()
 //            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)

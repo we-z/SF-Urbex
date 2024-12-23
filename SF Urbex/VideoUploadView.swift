@@ -8,57 +8,36 @@
 import SwiftUI
 import PhotosUI
 
-struct VideoUploadView: View {
-    @State private var selectedVideoItem: PhotosPickerItem? = nil
-    @State private var selectedVideoURL: URL? = nil
-    @State private var caption: String = ""
-    @Environment(\.dismiss) private var dismiss
-
-    @ObservedObject var viewModel: VideoFeedViewModel
+struct UploadVideoView: View {
+    @ObservedObject var cloudKitManager: CloudKitManager
+    @State private var videoURL: URL?
+    @State private var thumbnailURL: URL?
+    @State private var title: String = ""
+    @State private var showPicker = false
 
     var body: some View {
-        VStack {
-            PhotosPicker(
-                selection: $selectedVideoItem,
-                matching: .videos,
-                label: {
-                    Text("Select Video")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .cornerRadius(8)
+        NavigationView {
+            Form {
+                Section(header: Text("Video Details")) {
+                    TextField("Title", text: $title)
+                    Button("Select Video") {
+                        showPicker = true
+                    }
+                    if let videoURL = videoURL {
+                        Text("Selected: \(videoURL.lastPathComponent)")
+                    }
                 }
-            )
-            .onChange(of: selectedVideoItem) { newItem in
-                Task {
-                    if let newItem = newItem {
-                        if let videoURL = try? await newItem.loadTransferable(type: URL.self) {
-                            selectedVideoURL = videoURL
-                        } else {
-                            print("Failed to load video URL")
-                        }
+                Button("Upload") {
+                    if let videoURL = videoURL, let thumbnailURL = thumbnailURL {
+                        cloudKitManager.uploadVideo(title: title, videoURL: videoURL, thumbnailURL: thumbnailURL)
                     }
                 }
             }
-
-            if let videoURL = selectedVideoURL {
-                Text("Selected Video: \(videoURL.lastPathComponent)")
-            }
-
-            TextField("Enter Caption", text: $caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-
-            Button("Upload") {
-                if let videoURL = selectedVideoURL {
-                    viewModel.uploadVideo(videoURL: videoURL, caption: caption)
-                    dismiss()
-                }
-            }
-            .disabled(selectedVideoURL == nil || caption.isEmpty)
-            .padding()
+            .navigationTitle("Upload Video")
         }
-        .padding()
     }
+}
+
+#Preview {
+    ContentView()
 }

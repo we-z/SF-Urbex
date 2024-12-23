@@ -28,3 +28,11 @@ struct VideoPost: Identifiable {
         return record
     }
 }
+
+struct Video: Identifiable {
+    var id: String
+    var title: String
+    var videoURL: URL
+    var thumbnailURL: URL
+    var recordID: CKRecord.ID?
+}

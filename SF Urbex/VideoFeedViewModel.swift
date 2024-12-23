@@ -8,35 +8,42 @@
 import Foundation
 import CloudKit
 
-class VideoFeedViewModel: ObservableObject {
-    @Published var videoPosts: [VideoPost] = []
+class CloudKitManager: ObservableObject {
+    @Published var videos: [Video] = []
+    private let database = CKContainer.default().publicCloudDatabase
 
-    private let publicDatabase = CKContainer.default().publicCloudDatabase
-
-    func fetchVideoPosts() {
-        let query = CKQuery(recordType: "VideoPost", predicate: NSPredicate(value: true))
-        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-
-        publicDatabase.perform(query, inZoneWith: nil) { records, error in
+    func fetchVideos() {
+        let query = CKQuery(recordType: "Video", predicate: NSPredicate(value: true))
+        database.perform(query, inZoneWith: nil) { records, error in
+            guard let records = records, error == nil else {
+                print("Error fetching videos: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
             DispatchQueue.main.async {
-                if let error = error {
-                    print("Error fetching video posts: \(error)")
-                    return
+                self.videos = records.map { record in
+                    Video(
+                        id: record.recordID.recordName,
+                        title: record["title"] as? String ?? "",
+                        videoURL: (record["videoURL"] as? CKAsset)?.fileURL ?? URL(fileURLWithPath: ""),
+                        thumbnailURL: (record["thumbnailURL"] as? CKAsset)?.fileURL ?? URL(fileURLWithPath: ""),
+                        recordID: record.recordID
+                    )
                 }
-                self.videoPosts = records?.compactMap { VideoPost(record: $0) } ?? []
             }
         }
     }
 
-    func uploadVideo(videoURL: URL, caption: String) {
-        let record = VideoPost.createRecord(videoURL: videoURL, caption: caption)
-        publicDatabase.save(record) { _, error in
+    func uploadVideo(title: String, videoURL: URL, thumbnailURL: URL) {
+        let record = CKRecord(recordType: "Video")
+        record["title"] = title as CKRecordValue
+        record["videoURL"] = CKAsset(fileURL: videoURL)
+        record["thumbnailURL"] = CKAsset(fileURL: thumbnailURL)
+
+        database.save(record) { record, error in
             if let error = error {
-                print("Error uploading video: \(error)")
+                print("Error uploading video: \(error.localizedDescription)")
             } else {
-                DispatchQueue.main.async {
-                    self.fetchVideoPosts()
-                }
+                print("Video uploaded successfully!")
             }
         }
     }
