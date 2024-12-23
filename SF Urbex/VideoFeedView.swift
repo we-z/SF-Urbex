@@ -9,7 +9,6 @@ import SwiftUI
 import AVKit
 import PhotosUI
 
-
 struct VideoFeedView: View {
     @StateObject private var cloudKitManager = CloudKitManager()
         @State private var showUploadSheet = false
