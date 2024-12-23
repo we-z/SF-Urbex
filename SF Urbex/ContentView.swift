@@ -40,13 +40,9 @@ struct ContentView: View {
 
 struct ProfileView: View {
     var body: some View {
-        VStack {
-            Text("Profile")
-                .font(.largeTitle)
-                .padding()
-
-            Text("This is where the user profile information will go.")
-                .padding()
+        NavigationView {
+            Text("Profile stuff")
+            .navigationTitle("Profile")
         }
     }
 }
