@@ -11,34 +11,44 @@ import PhotosUI
 
 struct VideoFeedView: View {
     @StateObject private var cloudKitManager = CloudKitManager()
-        @State private var showUploadSheet = false
+    @State private var showUploadSheet = false
 
-        var body: some View {
-            NavigationView {
-                List(cloudKitManager.videos) { video in
-                    NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
-                        HStack {
-                            AsyncImage(url: video.thumbnailURL) { image in
-                                image.resizable().scaledToFill()
-                            } placeholder: {
-                                ProgressView()
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.flexible())], spacing: 16) {
+                    ForEach(cloudKitManager.videos) { video in
+                        NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
+                            VStack {
+                                Text(video.title)
+                                    .font(.title3)
+                                    .foregroundColor(.primary)
+                                    .lineLimit(1)
+                                    .padding()
+                                GeometryReader { geometry in
+                                    AsyncImage(url: video.thumbnailURL) { image in
+                                        image.resizable().scaledToFill()
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                    .frame(width: geometry.size.width, height: geometry.size.width)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                                .aspectRatio(1, contentMode: .fit)
+                                
+                                
                             }
-                            .frame(width: 100, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            Text(video.title)
-                                .font(.headline)
-                                .padding(.leading, 8)
                         }
                     }
                 }
-                .onAppear {
-                    cloudKitManager.fetchVideos()
-                }
-                .navigationTitle("Home")
-
+                .padding()
             }
-
+            .onAppear {
+                cloudKitManager.fetchVideos()
+            }
+            .navigationTitle("Home")
         }
+    }
 }
 
 struct VideoPlayerView: View {
@@ -46,7 +56,7 @@ struct VideoPlayerView: View {
 
     var body: some View {
         VideoPlayer(player: AVPlayer(url: videoURL))
-            .aspectRatio(contentMode: .fit)
+//            .aspectRatio(contentMode: .fit)
             .onDisappear {
                 AVPlayer(url: videoURL).pause()
             }
