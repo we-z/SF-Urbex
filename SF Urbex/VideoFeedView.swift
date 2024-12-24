@@ -22,21 +22,12 @@ struct MediaFeedView: View {
                 }
                 .padding()
             }
+            .scrollIndicators(.hidden)
             .navigationTitle("Media Feed")
-//            .toolbar {
-//                Button {
-//                    showUploadSheet.toggle()
-//                } label: {
-//                    Image(systemName: "plus")
-//                }
-//            }
             .onAppear {
                 // Fetch both videos and photos
                 cloudKitManager.fetchAllMedia()
             }
-//            .sheet(isPresented: $showUploadSheet) {
-//                UploadMediaView(cloudKitManager: cloudKitManager)
-//            }
         }
     }
 }
@@ -46,7 +37,7 @@ struct MediaCard: View {
     let item: MediaItem
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack {
             // Title row
             HStack {
                 Circle()
@@ -56,6 +47,7 @@ struct MediaCard: View {
                     .font(.headline)
                 Spacer()
             }
+            .padding()
             
             switch item.type {
             case .video:
