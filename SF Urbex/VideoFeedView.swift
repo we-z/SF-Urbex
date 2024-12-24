@@ -23,7 +23,7 @@ struct MediaFeedView: View {
                 .padding()
             }
             .scrollIndicators(.hidden)
-            .navigationTitle("Media Feed")
+            .navigationTitle("Home")
             .refreshable {
                 cloudKitManager.fetchAllMedia()
             }
@@ -32,6 +32,7 @@ struct MediaFeedView: View {
                 cloudKitManager.fetchAllMedia()
             }
         }
+        .accentColor(.primary)
     }
 }
 
@@ -120,8 +121,6 @@ struct PhotoDetailView: View {
                 ProgressView()
             }
         }
-        .navigationTitle("Photo Detail")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
