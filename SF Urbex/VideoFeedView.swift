@@ -16,35 +16,35 @@ struct VideoFeedView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                GeometryReader { geometry in
                 LazyVStack {
                     ForEach(cloudKitManager.videos) { video in
-                        
-                            VStack {
-                                HStack {
-                                    Circle()
-                                        .foregroundColor(.gray)
-                                        .frame(width: geometry.size.width / 9, height: geometry.size.width / 9)
-                                    Text(video.title)
-                                        .font(.system(size: geometry.size.width / 18))
-                                        .foregroundColor(.primary)
-                                        .lineLimit(1)
-                                    Spacer()
-                                }
-                                .padding(.leading)
-                                NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
-                                
-                                    AsyncImage(url: video.thumbnailURL) { image in
-                                        image.resizable().scaledToFill()
-                                    } placeholder: {
-                                        ProgressView()
+                        VStack(spacing: 60) {
+                                GeometryReader { geometry in
+                                    HStack {
+                                        Circle()
+                                            .foregroundColor(.gray)
+                                            .frame(width: geometry.size.width / 9, height: geometry.size.width / 9)
+                                        Text(video.title)
+                                            .font(.system(size: geometry.size.width / 18))
+                                            .foregroundColor(.primary)
+                                            .lineLimit(1)
+                                        Spacer()
                                     }
-                                    .frame(width: geometry.size.width, height: geometry.size.width)
-                                    .clipShape(RoundedRectangle(cornerRadius: geometry.size.width / 9))
+                                    .padding()
+                                }
+                                NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
+                                    GeometryReader { geometry in
+                                        AsyncImage(url: video.thumbnailURL) { image in
+                                            image.resizable().scaledToFill()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: geometry.size.width, height: geometry.size.width)
+                                        .clipShape(RoundedRectangle(cornerRadius: geometry.size.width / 9))
+                                    }
                                 }
                                 .aspectRatio(1, contentMode: .fit)
                             }
-                        }
                     }
                 }
                 .padding()
