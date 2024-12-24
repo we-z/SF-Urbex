@@ -16,15 +16,15 @@ struct VideoFeedView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible())], spacing: 16) {
+                LazyVStack {
                     ForEach(cloudKitManager.videos) { video in
-                        NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
-                            VStack {
-                                Text(video.title)
-                                    .font(.title3)
-                                    .foregroundColor(.primary)
-                                    .lineLimit(1)
-                                    .padding()
+                        VStack {
+                            Text(video.title)
+                                .font(.title3)
+                                .foregroundColor(.primary)
+                                .lineLimit(1)
+                                .padding()
+                            NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
                                 GeometryReader { geometry in
                                     AsyncImage(url: video.thumbnailURL) { image in
                                         image.resizable().scaledToFill()
@@ -35,8 +35,6 @@ struct VideoFeedView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: geometry.size.width / 9))
                                 }
                                 .aspectRatio(1, contentMode: .fit)
-                                
-                                
                             }
                         }
                     }
@@ -56,7 +54,6 @@ struct VideoPlayerView: View {
 
     var body: some View {
         VideoPlayer(player: AVPlayer(url: videoURL))
-//            .aspectRatio(contentMode: .fit)
             .onDisappear {
                 AVPlayer(url: videoURL).pause()
             }
