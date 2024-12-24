@@ -41,6 +41,7 @@ struct VideoFeedView: View {
                 }
                 .padding()
             }
+            .scrollIndicators(.hidden)
             .onAppear {
                 cloudKitManager.fetchVideos()
             }
