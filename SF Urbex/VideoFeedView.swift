@@ -18,14 +18,21 @@ struct VideoFeedView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(cloudKitManager.videos) { video in
-                        VStack {
-                            Text(video.title)
-                                .font(.title3)
-                                .foregroundColor(.primary)
-                                .lineLimit(1)
-                                .padding()
-                            NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
-                                GeometryReader { geometry in
+                        GeometryReader { geometry in
+                            VStack {
+                                HStack {
+                                    Circle()
+                                        .foregroundColor(.gray)
+                                        .frame(width: geometry.size.width / 9, height: geometry.size.width / 9)
+                                    Text(video.title)
+                                        .font(.system(size: geometry.size.width / 18))
+                                        .foregroundColor(.primary)
+                                        .lineLimit(1)
+                                    Spacer()
+                                }
+                                .padding(.leading)
+                                NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
+                                
                                     AsyncImage(url: video.thumbnailURL) { image in
                                         image.resizable().scaledToFill()
                                     } placeholder: {
