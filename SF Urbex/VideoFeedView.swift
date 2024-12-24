@@ -32,7 +32,7 @@ struct VideoFeedView: View {
                                         ProgressView()
                                     }
                                     .frame(width: geometry.size.width, height: geometry.size.width)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .clipShape(RoundedRectangle(cornerRadius: geometry.size.width / 9))
                                 }
                                 .aspectRatio(1, contentMode: .fit)
                                 
