@@ -24,6 +24,9 @@ struct MediaFeedView: View {
             }
             .scrollIndicators(.hidden)
             .navigationTitle("Media Feed")
+            .refreshable {
+                cloudKitManager.fetchAllMedia()
+            }
             .onAppear {
                 // Fetch both videos and photos
                 cloudKitManager.fetchAllMedia()
