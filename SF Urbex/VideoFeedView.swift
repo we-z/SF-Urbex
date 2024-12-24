@@ -1,5 +1,5 @@
 //
-//  VideoFeedView.swift
+//  MediaFeedView.swift
 //  SF Urbex
 //
 //  Created by Wheezy Capowdis on 12/21/24.
@@ -7,68 +7,129 @@
 
 import SwiftUI
 import AVKit
-import PhotosUI
 
-struct VideoFeedView: View {
+struct MediaFeedView: View {
     @StateObject private var cloudKitManager = CloudKitManager()
     @State private var showUploadSheet = false
 
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack {
-                    ForEach(cloudKitManager.videos) { video in
-                        VStack(spacing: 60) {
-                                GeometryReader { geometry in
-                                    HStack {
-                                        Circle()
-                                            .foregroundColor(.gray)
-                                            .frame(width: geometry.size.width / 9, height: geometry.size.width / 9)
-                                        Text(video.title)
-                                            .font(.system(size: geometry.size.width / 18))
-                                            .foregroundColor(.primary)
-                                            .lineLimit(1)
-                                        Spacer()
-                                    }
-                                    .padding()
-                                }
-                                NavigationLink(destination: VideoPlayerView(videoURL: video.videoURL)) {
-                                    GeometryReader { geometry in
-                                        AsyncImage(url: video.thumbnailURL) { image in
-                                            image.resizable().scaledToFill()
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                        .frame(width: geometry.size.width, height: geometry.size.width)
-                                        .clipShape(RoundedRectangle(cornerRadius: geometry.size.width / 9))
-                                    }
-                                }
-                                .aspectRatio(1, contentMode: .fit)
-                            }
+                LazyVStack(spacing: 24) {
+                    ForEach(cloudKitManager.mediaItems) { item in
+                        MediaCard(item: item)
                     }
                 }
                 .padding()
             }
-            .scrollIndicators(.hidden)
+            .navigationTitle("Media Feed")
+//            .toolbar {
+//                Button {
+//                    showUploadSheet.toggle()
+//                } label: {
+//                    Image(systemName: "plus")
+//                }
+//            }
             .onAppear {
-                cloudKitManager.fetchVideos()
+                // Fetch both videos and photos
+                cloudKitManager.fetchAllMedia()
             }
-            .navigationTitle("Home")
+//            .sheet(isPresented: $showUploadSheet) {
+//                UploadMediaView(cloudKitManager: cloudKitManager)
+//            }
         }
     }
 }
 
+// MARK: - Subview for Each MediaItem
+struct MediaCard: View {
+    let item: MediaItem
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // Title row
+            HStack {
+                Circle()
+                    .foregroundColor(.gray)
+                    .frame(width: 40, height: 40)
+                Text(item.title)
+                    .font(.headline)
+                Spacer()
+            }
+            
+            switch item.type {
+            case .video:
+                NavigationLink(destination: VideoPlayerView(videoURL: item.videoURL!)) {
+                    // Display thumbnail
+                    if let thumbURL = item.thumbnailURL {
+                        Rectangle()
+                            .foregroundColor(.secondary)
+                            .aspectRatio(contentMode: .fill)
+                            .overlay(
+                                AsyncImage(url: thumbURL) { image in
+                                    image.resizable().scaledToFill()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            )
+                            .cornerRadius(30)
+                    }
+                }
+            case .photo:
+                NavigationLink(destination: PhotoDetailView(imageURL: item.imageURL!)) {
+                    if let imgURL = item.imageURL {
+                        Rectangle()
+                            .foregroundColor(.secondary)
+                            .aspectRatio(contentMode: .fill)
+                            .overlay(
+                                AsyncImage(url: imgURL) { image in
+                                    image.resizable().scaledToFill()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            )
+                            .cornerRadius(30)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - VideoPlayerView
 struct VideoPlayerView: View {
     let videoURL: URL
 
     var body: some View {
         VideoPlayer(player: AVPlayer(url: videoURL))
             .onDisappear {
+                // Pause the player when leaving
                 AVPlayer(url: videoURL).pause()
             }
+            .navigationTitle("Video Player")
+            .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - PhotoDetailView
+struct PhotoDetailView: View {
+    let imageURL: URL
+
+    var body: some View {
+        VStack {
+            AsyncImage(url: imageURL) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+        }
+        .navigationTitle("Photo Detail")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    VideoFeedView()
+    MediaFeedView()
 }

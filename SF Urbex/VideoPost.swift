@@ -1,5 +1,5 @@
 //
-//  VideoPost.swift
+//  MediaItem.swift
 //  SF Urbex
 //
 //  Created by Wheezy Capowdis on 12/21/24.
@@ -8,31 +8,47 @@
 import Foundation
 import CloudKit
 
-struct VideoPost: Identifiable {
-    let id: CKRecord.ID
-    let videoURL: URL
-    let caption: String
-    let creationDate: Date
-
-    init(record: CKRecord) {
-        self.id = record.recordID
-        self.videoURL = record["videoURL"] as! URL
-        self.caption = record["caption"] as! String
-        self.creationDate = record.creationDate ?? Date()
-    }
-
-    static func createRecord(videoURL: URL, caption: String) -> CKRecord {
-        let record = CKRecord(recordType: "VideoPost")
-        record["videoURL"] = videoURL as! any CKRecordValue as CKRecordValue
-        record["caption"] = caption as CKRecordValue
-        return record
-    }
+enum MediaType {
+    case video
+    case photo
 }
 
-struct Video: Identifiable {
-    var id: String
-    var title: String
-    var videoURL: URL
-    var thumbnailURL: URL
-    var recordID: CKRecord.ID?
+struct MediaItem: Identifiable {
+    let id: CKRecord.ID
+    let type: MediaType
+    
+    let title: String
+    let creationDate: Date
+
+    // Video-related
+    let videoURL: URL?
+    let thumbnailURL: URL?
+
+    // Photo-related
+    let imageURL: URL?
+
+    init(record: CKRecord, type: MediaType) {
+        self.id = record.recordID
+        self.type = type
+        
+        // Common fields
+        self.title = record["title"] as? String ?? ""
+        self.creationDate = record.creationDate ?? Date()
+        
+        // Video fields
+        if type == .video {
+            let videoAsset = record["videoURL"] as? CKAsset
+            self.videoURL = videoAsset?.fileURL
+            let thumbnailAsset = record["thumbnailURL"] as? CKAsset
+            self.thumbnailURL = thumbnailAsset?.fileURL
+            
+            self.imageURL = nil
+        }
+        // Photo fields
+        else {
+            self.imageURL = (record["imageURL"] as? CKAsset)?.fileURL
+            self.videoURL = nil
+            self.thumbnailURL = nil
+        }
+    }
 }

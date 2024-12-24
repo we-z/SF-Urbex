@@ -13,13 +13,13 @@ struct ContentView: View {
     var body: some View {
         TabView {
             // Home Tab
-            VideoFeedView()
+            MediaFeedView()
                 .tabItem {
                     Image(systemName: "house")
                 }
 
             // Upload Tab
-            UploadVideoView(cloudKitManager: cloudKitManager)
+            UploadMediaView(cloudKitManager: cloudKitManager)
                 .tabItem {
                     Image(systemName: "plus.app")
                 }
