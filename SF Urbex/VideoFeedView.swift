@@ -16,9 +16,10 @@ struct VideoFeedView: View {
     var body: some View {
         NavigationView {
             ScrollView {
+                GeometryReader { geometry in
                 LazyVStack {
                     ForEach(cloudKitManager.videos) { video in
-                        GeometryReader { geometry in
+                        
                             VStack {
                                 HStack {
                                     Circle()
