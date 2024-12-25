@@ -23,7 +23,7 @@ struct MediaFeedView: View {
                 .padding()
             }
             .scrollIndicators(.hidden)
-            .navigationTitle("Home")
+            .navigationTitle("Hush Post")
             .refreshable {
                 cloudKitManager.fetchAllMedia()
             }
