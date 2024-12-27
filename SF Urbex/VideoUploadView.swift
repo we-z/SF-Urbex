@@ -11,7 +11,6 @@ struct UploadMediaView: View {
     @State private var videoURL: URL?
     @State private var imageURL: URL?
 
-    @State private var title: String = ""
     @State private var showPicker = false
     @State private var isSelectingMedia = false
     @State private var uploadProgress: Double = 0.0
@@ -20,9 +19,6 @@ struct UploadMediaView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                TextField("Title", text: $title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
 
                 Button("Select Media") {
                     showPicker = true
@@ -69,9 +65,9 @@ struct UploadMediaView: View {
 
     private var shouldDisableUploadButton: Bool {
         if isVideoSelected {
-            return (videoURL == nil || title.isEmpty)
+            return (videoURL == nil)
         } else {
-            return (imageURL == nil || title.isEmpty)
+            return (imageURL == nil)
         }
     }
 
@@ -106,7 +102,7 @@ struct UploadMediaView: View {
 
     private func uploadMedia() {
         if isVideoSelected, let videoURL = videoURL {
-            cloudKitManager.uploadVideo(title: title, videoURL: videoURL) { progress in
+            cloudKitManager.uploadVideo(videoURL: videoURL) { progress in
                 DispatchQueue.main.async {
                     uploadProgress = progress
                 }
@@ -117,7 +113,7 @@ struct UploadMediaView: View {
                 }
             }
         } else if let imageURL = imageURL {
-            cloudKitManager.uploadImage(title: title, imageURL: imageURL) { progress in
+            cloudKitManager.uploadImage(imageURL: imageURL) { progress in
                 DispatchQueue.main.async {
                     uploadProgress = progress
                 }

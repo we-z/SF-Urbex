@@ -98,9 +98,8 @@ class CloudKitManager: ObservableObject {
         database.add(operation)
     }
     
-    func uploadVideo(title: String, videoURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
+    func uploadVideo(videoURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
             let record = CKRecord(recordType: "Video")
-            record["title"] = title as CKRecordValue
             record["videoURL"] = CKAsset(fileURL: videoURL)
 
             DispatchQueue.global(qos: .background).async {
@@ -126,9 +125,8 @@ class CloudKitManager: ObservableObject {
             }
         }
 
-        func uploadImage(title: String, imageURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
+        func uploadImage(imageURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
             let record = CKRecord(recordType: "Photo")
-            record["title"] = title as CKRecordValue
             record["imageURL"] = CKAsset(fileURL: imageURL)
 
             DispatchQueue.global(qos: .background).async {
