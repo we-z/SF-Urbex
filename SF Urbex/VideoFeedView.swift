@@ -55,38 +55,29 @@ struct MediaCard: View {
             
             switch item.type {
             case .video:
-//                NavigationLink(destination: VideoPlayerView(videoURL: item.videoURL!)) {
-                    // Display thumbnail
-                    if let thumbURL = item.thumbnailURL {
-                        Rectangle()
-                            .foregroundColor(.secondary)
-                            .aspectRatio(contentMode: .fill)
-                            .overlay(
-                                AsyncImage(url: thumbURL) { image in
-                                    image.resizable().scaledToFill()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                            )
-                            .cornerRadius(30)
-                    }
-//                }
+                Rectangle()
+                    .foregroundColor(.secondary)
+                    .aspectRatio(contentMode: .fill)
+                    .overlay(
+                        AsyncImage(url: item.thumbnailURL) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    )
+                    .cornerRadius(30)
             case .photo:
-//                NavigationLink(destination: PhotoDetailView(imageURL: item.imageURL!)) {
-                    if let imgURL = item.imageURL {
-                        Rectangle()
-                            .foregroundColor(.secondary)
-                            .aspectRatio(contentMode: .fill)
-                            .overlay(
-                                AsyncImage(url: imgURL) { image in
-                                    image.resizable().scaledToFill()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                            )
-                            .cornerRadius(30)
-                    }
-//                }
+                Rectangle()
+                    .foregroundColor(.secondary)
+                    .aspectRatio(contentMode: .fill)
+                    .overlay(
+                        AsyncImage(url: item.imageURL) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    )
+                    .cornerRadius(30)
             }
         }
     }
