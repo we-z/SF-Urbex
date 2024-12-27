@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import AVKit
 
 struct UploadMediaView: View {
     @ObservedObject var cloudKitManager: CloudKitManager
@@ -31,11 +32,10 @@ struct UploadMediaView: View {
                 if isSelectingMedia {
                     ProgressView("Selecting Media...")
                         .padding()
-                } else if isVideoSelected, let videoURL = videoURL {
-                    Text("Selected Video: \(videoURL.lastPathComponent)")
-                        .padding()
-                } else if !isVideoSelected, let imageURL = imageURL {
-                    Text("Selected Image: \(imageURL.lastPathComponent)")
+                } else {
+                    selectedMediaPreview
+                        .frame(height: 200)
+                        .cornerRadius(15)
                         .padding()
                 }
 
@@ -75,32 +75,56 @@ struct UploadMediaView: View {
         }
     }
 
-    private func uploadMedia() {
+    @ViewBuilder
+    private var selectedMediaPreview: some View {
         if isVideoSelected, let videoURL = videoURL {
-            cloudKitManager.uploadVideo(title: title, videoURL: videoURL, progress: { progress in
-                DispatchQueue.main.async {
-                    uploadProgress = progress
-                }
-            }, completion: {
-                DispatchQueue.main.async {
-                    isUploading = false
-                    uploadProgress = 0.0
-                }
-            })
+            Rectangle()
+                .foregroundColor(.secondary)
+                .opacity(0.3)
+                .overlay(
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                )
         } else if let imageURL = imageURL {
-            cloudKitManager.uploadImage(title: title, imageURL: imageURL, progress: { progress in
-                DispatchQueue.main.async {
-                    uploadProgress = progress
-                }
-            }, completion: {
-                DispatchQueue.main.async {
-                    isUploading = false
-                    uploadProgress = 0.0
-                }
-            })
+            Rectangle()
+                .foregroundColor(.secondary)
+                .opacity(0.3)
+                .overlay(
+                    AsyncImage(url: imageURL) { image in
+                        image.resizable().scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                )
+        } else {
+            EmptyView()
         }
     }
 
+    private func uploadMedia() {
+        if isVideoSelected, let videoURL = videoURL {
+            cloudKitManager.uploadVideo(title: title, videoURL: videoURL) { progress in
+                DispatchQueue.main.async {
+                    uploadProgress = progress
+                }
+            } completion: {
+                DispatchQueue.main.async {
+                    isUploading = false
+                    uploadProgress = 0.0
+                }
+            }
+        } else if let imageURL = imageURL {
+            cloudKitManager.uploadImage(title: title, imageURL: imageURL) { progress in
+                DispatchQueue.main.async {
+                    uploadProgress = progress
+                }
+            } completion: {
+                DispatchQueue.main.async {
+                    isUploading = false
+                    uploadProgress = 0.0
+                }
+            }
+        }
+    }
 }
 
 struct MediaPicker: UIViewControllerRepresentable {
