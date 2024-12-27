@@ -25,15 +25,15 @@ struct UploadMediaView: View {
                 }
                 .padding()
 
-                if isSelectingMedia {
-                    ProgressView("Selecting Media...")
-                        .padding()
-                } else {
+//                if isSelectingMedia {
+//                    ProgressView("Selecting Media...")
+//                        .padding()
+//                } else {
                     selectedMediaPreview
-                        .frame(height: 200)
-                        .cornerRadius(15)
-                        .padding()
-                }
+//                        .frame(height: 200)
+//                        .cornerRadius(15)
+//                        .padding()
+//                }
 
                 Button("Upload") {
                     isUploading = true
@@ -165,6 +165,7 @@ struct MediaPicker: UIViewControllerRepresentable {
             parent.imageURL = nil
             
             if provider.hasItemConformingToTypeIdentifier("public.movie") {
+                print("video selected")
                 parent.isVideoSelected = true
                 provider.loadFileRepresentation(forTypeIdentifier: "public.movie") { url, error in
                     guard let url = url else { return }
@@ -179,6 +180,7 @@ struct MediaPicker: UIViewControllerRepresentable {
                     }
                 }
             } else if provider.canLoadObject(ofClass: UIImage.self) {
+                print("image selected")
                 parent.isVideoSelected = false
                 provider.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async {
