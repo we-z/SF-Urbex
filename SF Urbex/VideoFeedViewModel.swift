@@ -15,13 +15,9 @@ class CloudKitManager: ObservableObject {
     
     // MARK: - Combined Fetch
     func fetchAllMedia() {
-        // We perform two queries: one for Video, one for Photo.
-        // Then we merge the results, sort, and publish them.
         fetchVideos { videoItems in
             self.fetchPhotos { photoItems in
-                // Merge
                 let combined = videoItems + photoItems
-                // Sort descending by creation date
                 let sorted = combined.sorted { $0.creationDate > $1.creationDate }
                 
                 DispatchQueue.main.async {
@@ -34,21 +30,32 @@ class CloudKitManager: ObservableObject {
     // MARK: - Fetch Videos
     private func fetchVideos(completion: @escaping ([MediaItem]) -> Void) {
         let query = CKQuery(recordType: "Video", predicate: NSPredicate(value: true))
-        // Sort by creationDate descending (optional if you want to rely on local sorting)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        database.perform(query, inZoneWith: nil) { records, error in
-            guard let records = records, error == nil else {
-                print("Error fetching videos: \(error?.localizedDescription ?? "Unknown")")
-                completion([])
-                return
+        let operation = CKQueryOperation(query: query)
+        var videoItems: [MediaItem] = []
+        
+        operation.recordMatchedBlock = { recordID, result in
+            switch result {
+            case .success(let record):
+                let item = MediaItem(record: record, type: .video)
+                videoItems.append(item)
+            case .failure(let error):
+                print("Error fetching video record \(recordID): \(error.localizedDescription)")
             }
-            
-            let items = records.map { record in
-                MediaItem(record: record, type: .video)
-            }
-            completion(items)
         }
+        
+        operation.queryResultBlock = { result in
+            switch result {
+            case .success:
+                completion(videoItems)
+            case .failure(let error):
+                print("Error completing video query: \(error.localizedDescription)")
+                completion(videoItems)
+            }
+        }
+        
+        database.add(operation)
     }
     
     // MARK: - Fetch Photos
@@ -56,18 +63,30 @@ class CloudKitManager: ObservableObject {
         let query = CKQuery(recordType: "Photo", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        database.perform(query, inZoneWith: nil) { records, error in
-            guard let records = records, error == nil else {
-                print("Error fetching photos: \(error?.localizedDescription ?? "Unknown")")
-                completion([])
-                return
+        let operation = CKQueryOperation(query: query)
+        var photoItems: [MediaItem] = []
+        
+        operation.recordMatchedBlock = { recordID, result in
+            switch result {
+            case .success(let record):
+                let item = MediaItem(record: record, type: .photo)
+                photoItems.append(item)
+            case .failure(let error):
+                print("Error fetching photo record \(recordID): \(error.localizedDescription)")
             }
-            
-            let items = records.map { record in
-                MediaItem(record: record, type: .photo)
-            }
-            completion(items)
         }
+        
+        operation.queryResultBlock = { result in
+            switch result {
+            case .success:
+                completion(photoItems)
+            case .failure(let error):
+                print("Error completing photo query: \(error.localizedDescription)")
+                completion(photoItems)
+            }
+        }
+        
+        database.add(operation)
     }
     
     // MARK: - Upload Video
@@ -82,7 +101,6 @@ class CloudKitManager: ObservableObject {
                 print("Error uploading video: \(error.localizedDescription)")
             } else {
                 print("Video uploaded successfully!")
-                // Refresh feed
                 self.fetchAllMedia()
             }
         }
@@ -99,7 +117,6 @@ class CloudKitManager: ObservableObject {
                 print("Error uploading image: \(error.localizedDescription)")
             } else {
                 print("Image uploaded successfully!")
-                // Refresh feed
                 self.fetchAllMedia()
             }
         }
