@@ -81,13 +81,16 @@ struct UploadMediaView: View {
             Rectangle()
                 .foregroundColor(.secondary)
                 .opacity(0.3)
+                .aspectRatio(contentMode: .fill)
                 .overlay(
                     VideoPlayer(player: AVPlayer(url: videoURL))
                 )
+                .cornerRadius(30)
         } else if let imageURL = imageURL {
             Rectangle()
                 .foregroundColor(.secondary)
                 .opacity(0.3)
+                .aspectRatio(contentMode: .fill)
                 .overlay(
                     AsyncImage(url: imageURL) { image in
                         image.resizable().scaledToFill()
@@ -95,6 +98,7 @@ struct UploadMediaView: View {
                         ProgressView()
                     }
                 )
+                .cornerRadius(30)
         } else {
             EmptyView()
         }
