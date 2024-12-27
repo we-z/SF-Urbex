@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct TempView: View {
     var body: some View {
@@ -42,6 +43,8 @@ struct TempView: View {
                     .offset(x: -84, y: -30)
             }
             .offset(y: 25)
+            
+            VideoPlayer(player: AVPlayer(url:  URL(string: "https://bit.ly/swswift")!))
         }
     }
 }

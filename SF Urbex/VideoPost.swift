@@ -22,7 +22,6 @@ struct MediaItem: Identifiable {
 
     // Video-related
     let videoURL: URL?
-    let thumbnailURL: URL?
 
     // Photo-related
     let imageURL: URL?
@@ -39,8 +38,6 @@ struct MediaItem: Identifiable {
         if type == .video {
             let videoAsset = record["videoURL"] as? CKAsset
             self.videoURL = videoAsset?.fileURL
-            let thumbnailAsset = record["thumbnailURL"] as? CKAsset
-            self.thumbnailURL = thumbnailAsset?.fileURL
             
             self.imageURL = nil
         }
@@ -48,7 +45,6 @@ struct MediaItem: Identifiable {
         else {
             self.imageURL = (record["imageURL"] as? CKAsset)?.fileURL
             self.videoURL = nil
-            self.thumbnailURL = nil
         }
     }
 }

@@ -99,11 +99,10 @@ class CloudKitManager: ObservableObject {
     }
     
     // MARK: - Upload Video
-    func uploadVideo(title: String, videoURL: URL, thumbnailURL: URL) {
+    func uploadVideo(title: String, videoURL: URL) {
         let record = CKRecord(recordType: "Video")
         record["title"] = title as CKRecordValue
         record["videoURL"] = CKAsset(fileURL: videoURL)
-        record["thumbnailURL"] = CKAsset(fileURL: thumbnailURL)
 
         database.save(record) { _, error in
             if let error = error {

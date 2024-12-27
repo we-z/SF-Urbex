@@ -61,10 +61,13 @@ struct MediaCard: View {
                     .opacity(0.3)
                     .aspectRatio(contentMode: .fill)
                     .overlay(
-                        AsyncImage(url: item.thumbnailURL) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            ProgressView()
+                        Group {
+                            if let videoURL = item.videoURL {
+                                VideoPlayer(player: AVPlayer(url: videoURL))
+                                    .scaledToFill()
+                            } else {
+                                ProgressView()
+                            }
                         }
                     )
                     .cornerRadius(30)
