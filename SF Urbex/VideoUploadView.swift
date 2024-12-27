@@ -3,7 +3,7 @@ import PhotosUI
 import AVKit
 
 struct UploadMediaView: View {
-    @ObservedObject var cloudKitManager: CloudKitManager
+    @ObservedObject var cloudKitManager: CloudKitManager = CloudKitManager()
 
     // We will detect if it's a video or an image automatically
     @State private var isVideoSelected = false
@@ -202,4 +202,8 @@ struct MediaPicker: UIViewControllerRepresentable {
             }
         }
     }
+}
+
+#Preview {
+    UploadMediaView()
 }
