@@ -45,7 +45,8 @@ struct MediaCard: View {
             // Title row
             HStack {
                 Circle()
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
+                    .opacity(0.3)
                     .frame(width: 40, height: 40)
                 Text(item.title)
                     .font(.headline)
@@ -57,6 +58,7 @@ struct MediaCard: View {
             case .video:
                 Rectangle()
                     .foregroundColor(.secondary)
+                    .opacity(0.3)
                     .aspectRatio(contentMode: .fill)
                     .overlay(
                         AsyncImage(url: item.thumbnailURL) { image in
@@ -69,6 +71,7 @@ struct MediaCard: View {
             case .photo:
                 Rectangle()
                     .foregroundColor(.secondary)
+                    .opacity(0.3)
                     .aspectRatio(contentMode: .fill)
                     .overlay(
                         AsyncImage(url: item.imageURL) { image in

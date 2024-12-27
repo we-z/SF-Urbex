@@ -16,7 +16,7 @@ class CloudKitManager: ObservableObject {
             ),
             MediaItem(
                 record: CKRecord(recordType: "Placeholder"),
-                type: .video
+                type: .photo
             )
         ]
     
