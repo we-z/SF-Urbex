@@ -86,38 +86,6 @@ struct MediaCard: View {
     }
 }
 
-// MARK: - VideoPlayerView
-struct VideoPlayerView: View {
-    let videoURL: URL
-
-    var body: some View {
-        VideoPlayer(player: AVPlayer(url: videoURL))
-            .onDisappear {
-                // Pause the player when leaving
-                AVPlayer(url: videoURL).pause()
-            }
-            .navigationTitle("Video Player")
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - PhotoDetailView
-struct PhotoDetailView: View {
-    let imageURL: URL
-
-    var body: some View {
-        VStack {
-            AsyncImage(url: imageURL) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-            } placeholder: {
-                ProgressView()
-            }
-        }
-    }
-}
-
 #Preview {
     MediaFeedView()
 }
