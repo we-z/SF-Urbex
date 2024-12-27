@@ -1,83 +1,107 @@
-//
-//  UploadMediaView.swift
-//  SF Urbex
-//
-//  Created by Wheezy Capowdis on 12/21/24.
-//
-
 import SwiftUI
 import PhotosUI
 
 struct UploadMediaView: View {
     @ObservedObject var cloudKitManager: CloudKitManager
-    
+
     // We will detect if it's a video or an image automatically
     @State private var isVideoSelected = false
-    
+
     @State private var videoURL: URL?
     @State private var imageURL: URL?
-    
+
     @State private var title: String = ""
     @State private var showPicker = false
-    
+    @State private var isSelectingMedia = false
+    @State private var uploadProgress: Double = 0.0
+    @State private var isUploading = false
+
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("Upload Details")) {
-                    TextField("Title", text: $title)
+            VStack(spacing: 16) {
+                TextField("Title", text: $title)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
 
-                    Button("Select Media") {
-                        showPicker = true
-                    }
-                    
-                    if isVideoSelected, let videoURL = videoURL {
-                        Text("Selected Video: \(videoURL.lastPathComponent)")
-                    } else if !isVideoSelected, let imageURL = imageURL {
-                        Text("Selected Image: \(imageURL.lastPathComponent)")
-                    }
+                Button("Select Media") {
+                    showPicker = true
                 }
-                
+                .padding()
+
+                if isSelectingMedia {
+                    ProgressView("Selecting Media...")
+                        .padding()
+                } else if isVideoSelected, let videoURL = videoURL {
+                    Text("Selected Video: \(videoURL.lastPathComponent)")
+                        .padding()
+                } else if !isVideoSelected, let imageURL = imageURL {
+                    Text("Selected Image: \(imageURL.lastPathComponent)")
+                        .padding()
+                }
+
                 Button("Upload") {
-                    if isVideoSelected {
-                        if let videoURL = videoURL {
-                            cloudKitManager.uploadVideo(title: title, videoURL: videoURL)
-                        }
-                    } else {
-                        if let imageURL = imageURL {
-                            cloudKitManager.uploadImage(title: title,
-                                                        imageURL: imageURL)
-                        }
-                    }
+                    isUploading = true
+                    uploadMedia()
                 }
+                .padding()
                 .disabled(shouldDisableUploadButton)
+
+                if isUploading {
+                    ProgressView(value: uploadProgress, total: 1.0)
+                        .progressViewStyle(LinearProgressViewStyle())
+                        .padding()
+                }
+
+                Spacer()
             }
             .navigationTitle("Upload Media")
-        }
-        .sheet(isPresented: $showPicker) {
-            MediaPicker(isVideoSelected: $isVideoSelected,
-                        videoURL: $videoURL,
-                        imageURL: $imageURL)
+            .sheet(isPresented: $showPicker) {
+                MediaPicker(isVideoSelected: $isVideoSelected, videoURL: $videoURL, imageURL: $imageURL)
+                    .onChange(of: isVideoSelected) { _ in
+                        isSelectingMedia = false
+                    }
+                    .onAppear {
+                        isSelectingMedia = true
+                    }
+            }
         }
     }
-    
+
     private var shouldDisableUploadButton: Bool {
-        // If it's an image, we just need image plus a non-empty title
         if isVideoSelected {
             return (videoURL == nil || title.isEmpty)
         } else {
             return (imageURL == nil || title.isEmpty)
         }
     }
+
+    private func uploadMedia() {
+        if isVideoSelected, let videoURL = videoURL {
+            cloudKitManager.uploadVideo(title: title, videoURL: videoURL, progress: { progress in
+                DispatchQueue.main.async {
+                    uploadProgress = progress
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    isUploading = false
+                    uploadProgress = 0.0
+                }
+            })
+        } else if let imageURL = imageURL {
+            cloudKitManager.uploadImage(title: title, imageURL: imageURL, progress: { progress in
+                DispatchQueue.main.async {
+                    uploadProgress = progress
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    isUploading = false
+                    uploadProgress = 0.0
+                }
+            })
+        }
+    }
+
 }
-
-//
-//  MediaPicker.swift
-//  SF Urbex
-//
-//  Created by Wheezy Capowdis on 12/21/24.
-//
-
-import AVFoundation
 
 struct MediaPicker: UIViewControllerRepresentable {
     @Binding var isVideoSelected: Bool
@@ -102,7 +126,6 @@ struct MediaPicker: UIViewControllerRepresentable {
         Coordinator(self)
     }
 
-    // MARK: - Coordinator
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: MediaPicker
 
@@ -114,11 +137,9 @@ struct MediaPicker: UIViewControllerRepresentable {
             picker.dismiss(animated: true)
             guard let provider = results.first?.itemProvider else { return }
             
-            // Clear out any prior selections
             parent.videoURL = nil
             parent.imageURL = nil
             
-            // Check if the user selected a video
             if provider.hasItemConformingToTypeIdentifier("public.movie") {
                 parent.isVideoSelected = true
                 provider.loadFileRepresentation(forTypeIdentifier: "public.movie") { url, error in
@@ -133,14 +154,11 @@ struct MediaPicker: UIViewControllerRepresentable {
                         print("Error copying video: \(error.localizedDescription)")
                     }
                 }
-            }
-            // Otherwise, check for an image
-            else if provider.canLoadObject(ofClass: UIImage.self) {
+            } else if provider.canLoadObject(ofClass: UIImage.self) {
                 parent.isVideoSelected = false
                 provider.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async {
                         guard let uiImage = image as? UIImage else { return }
-                        // Save the image to temp directory
                         if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
                             let tempURL = FileManager.default.temporaryDirectory
                                 .appendingPathComponent(UUID().uuidString + ".jpg")

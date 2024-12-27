@@ -98,35 +98,59 @@ class CloudKitManager: ObservableObject {
         database.add(operation)
     }
     
-    // MARK: - Upload Video
-    func uploadVideo(title: String, videoURL: URL) {
-        let record = CKRecord(recordType: "Video")
-        record["title"] = title as CKRecordValue
-        record["videoURL"] = CKAsset(fileURL: videoURL)
+    func uploadVideo(title: String, videoURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
+            let record = CKRecord(recordType: "Video")
+            record["title"] = title as CKRecordValue
+            record["videoURL"] = CKAsset(fileURL: videoURL)
 
-        database.save(record) { _, error in
-            if let error = error {
-                print("Error uploading video: \(error.localizedDescription)")
-            } else {
-                print("Video uploaded successfully!")
-                self.fetchAllMedia()
+            DispatchQueue.global(qos: .background).async {
+                // Simulate progress
+                for i in 1...10 {
+                    DispatchQueue.main.async {
+                        progress(Double(i) / 10.0)
+                    }
+                    Thread.sleep(forTimeInterval: 0.1) // Simulate upload delay
+                }
+
+                self.database.save(record) { _, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            print("Error uploading video: \(error.localizedDescription)")
+                        } else {
+                            print("Video uploaded successfully!")
+                            self.fetchAllMedia()
+                        }
+                        completion()
+                    }
+                }
             }
         }
-    }
-    
-    // MARK: - Upload Image
-    func uploadImage(title: String, imageURL: URL) {
-        let record = CKRecord(recordType: "Photo")
-        record["title"] = title as CKRecordValue
-        record["imageURL"] = CKAsset(fileURL: imageURL)
-        
-        database.save(record) { _, error in
-            if let error = error {
-                print("Error uploading image: \(error.localizedDescription)")
-            } else {
-                print("Image uploaded successfully!")
-                self.fetchAllMedia()
+
+        func uploadImage(title: String, imageURL: URL, progress: @escaping (Double) -> Void, completion: @escaping () -> Void) {
+            let record = CKRecord(recordType: "Photo")
+            record["title"] = title as CKRecordValue
+            record["imageURL"] = CKAsset(fileURL: imageURL)
+
+            DispatchQueue.global(qos: .background).async {
+                // Simulate progress
+                for i in 1...10 {
+                    DispatchQueue.main.async {
+                        progress(Double(i) / 10.0)
+                    }
+                    Thread.sleep(forTimeInterval: 0.1) // Simulate upload delay
+                }
+
+                self.database.save(record) { _, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            print("Error uploading image: \(error.localizedDescription)")
+                        } else {
+                            print("Image uploaded successfully!")
+                            self.fetchAllMedia()
+                        }
+                        completion()
+                    }
+                }
             }
         }
-    }
 }
