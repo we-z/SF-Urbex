@@ -55,7 +55,7 @@ struct MediaCard: View {
             
             switch item.type {
             case .video:
-                NavigationLink(destination: VideoPlayerView(videoURL: item.videoURL!)) {
+//                NavigationLink(destination: VideoPlayerView(videoURL: item.videoURL!)) {
                     // Display thumbnail
                     if let thumbURL = item.thumbnailURL {
                         Rectangle()
@@ -70,9 +70,9 @@ struct MediaCard: View {
                             )
                             .cornerRadius(30)
                     }
-                }
+//                }
             case .photo:
-                NavigationLink(destination: PhotoDetailView(imageURL: item.imageURL!)) {
+//                NavigationLink(destination: PhotoDetailView(imageURL: item.imageURL!)) {
                     if let imgURL = item.imageURL {
                         Rectangle()
                             .foregroundColor(.secondary)
@@ -86,7 +86,7 @@ struct MediaCard: View {
                             )
                             .cornerRadius(30)
                     }
-                }
+//                }
             }
         }
     }

@@ -9,7 +9,16 @@ import Foundation
 import CloudKit
 
 class CloudKitManager: ObservableObject {
-    @Published var mediaItems: [MediaItem] = []
+    @Published var mediaItems: [MediaItem] = [
+            MediaItem(
+                record: CKRecord(recordType: "Placeholder"),
+                type: .photo
+            ),
+            MediaItem(
+                record: CKRecord(recordType: "Placeholder"),
+                type: .video
+            )
+        ]
     
     private let database = CKContainer.default().publicCloudDatabase
     
