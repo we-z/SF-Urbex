@@ -4,6 +4,7 @@ import AVKit
 
 struct UploadMediaView: View {
     @ObservedObject var cloudKitManager: CloudKitManager = CloudKitManager()
+    @Binding var selectedTab: Int
 
     @State private var imageURL: URL?
 
@@ -101,8 +102,6 @@ struct UploadMediaView: View {
                         .progressViewStyle(LinearProgressViewStyle())
                         .padding()
                 }
-
-                
             }
             .navigationTitle("Share Photo")
             .sheet(isPresented: $showPicker) {
@@ -118,27 +117,9 @@ struct UploadMediaView: View {
         return (imageURL == nil)
     }
 
-    @ViewBuilder
-    private var selectedMediaPreview: some View {
-        if let imageURL = imageURL {
-            Rectangle()
-                .foregroundColor(.secondary)
-                .opacity(0.3)
-                .aspectRatio(contentMode: .fill)
-                .overlay(
-                    AsyncImage(url: imageURL) { image in
-                        image.resizable().scaledToFill()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                )
-                .cornerRadius(30)
-        }
-    }
-
     private func uploadMedia() {
-        if let imageURL = imageURL {
-            cloudKitManager.uploadImage(imageURL: imageURL) { progress in
+        if let imgURL = imageURL {
+            cloudKitManager.uploadImage(imageURL: imgURL) { progress in
                 DispatchQueue.main.async {
                     uploadProgress = progress
                 }
@@ -146,6 +127,8 @@ struct UploadMediaView: View {
                 DispatchQueue.main.async {
                     isUploading = false
                     uploadProgress = 0.0
+                    imageURL = nil
+                    selectedTab = 0 // Switch to MediaFeedView tab
                 }
             }
         }
@@ -205,8 +188,4 @@ struct MediaPicker: UIViewControllerRepresentable {
             }
         }
     }
-}
-
-#Preview {
-    UploadMediaView()
 }
