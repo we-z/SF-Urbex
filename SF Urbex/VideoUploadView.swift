@@ -84,7 +84,7 @@ struct UploadMediaView: View {
                 } label: {
                     HStack{
                         Spacer()
-                        Text("Upload")
+                        Text("Share")
                             .font(.title2)
                             .padding()
                         Spacer()
