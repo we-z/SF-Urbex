@@ -15,7 +15,7 @@ struct MediaFeedView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack(spacing: 24) {
+                LazyVStack {
                     ForEach(cloudKitManager.mediaItems) { item in
                         MediaCard(item: item)
                     }
@@ -74,7 +74,7 @@ struct MediaCard: View {
                 )
                 .cornerRadius(30)
         }
-        .padding()
+        .padding([.horizontal, .top])
     }
 }
 
