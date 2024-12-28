@@ -43,15 +43,38 @@ struct UploadMediaView: View {
                 .accentColor(.primary)
                 .padding()
                 if (imageURL != nil) {
-                    Button {
-                        showPicker = true
-                    } label: {
-                        Text("Change Photo")
-                            .padding()
-                            .background(.secondary.opacity(0.3))
-                            .cornerRadius(12)
+                    HStack {
+                        Spacer()
+                        Button {
+                            imageURL = nil
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Cancel")
+                                    .padding()
+                                Spacer()
+                            }
+                                .background(.secondary.opacity(0.3))
+                                .cornerRadius(12)
+                        }
+                        .accentColor(.primary)
+                        Spacer()
+                        Button {
+                            showPicker = true
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Change Photo")
+                                    .padding()
+                                Spacer()
+                            }
+                                .background(.secondary.opacity(0.3))
+                                .cornerRadius(12)
+                        }
+                        .accentColor(.primary)
+                        Spacer()
                     }
-                    .accentColor(.primary)
+                    .padding(.horizontal)
                 }
                 Spacer()
 
