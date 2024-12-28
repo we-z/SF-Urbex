@@ -30,7 +30,7 @@ struct MediaFeedView: View {
                         print("Pressed")
                     } label: {
                         Image(systemName: "magnifyingglass")
-                            .font(.title)
+                            .font(.title2)
                     }
                 }
             }
