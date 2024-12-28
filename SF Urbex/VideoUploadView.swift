@@ -141,51 +141,125 @@ struct MediaPicker: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
-        config.filter = .any(of: [.images])
-        config.selectionLimit = 1
+        config.filter = .any(of: [.images]) // Only images
+        config.selectionLimit = 1           // Single selection
         
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
     }
 
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) { }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+        // No updates needed here.
     }
 
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    // MARK: - Coordinator
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: MediaPicker
 
-        init(_ parent: MediaPicker) {
+        init(parent: MediaPicker) {
             self.parent = parent
         }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            picker.dismiss(animated: true)
-            guard let provider = results.first?.itemProvider else { return }
-            
+            // If no selection was made, just dismiss
+            guard let provider = results.first?.itemProvider else {
+                picker.dismiss(animated: true)
+                return
+            }
+
+            // Reset parent image to nil until confirmed
             parent.imageURL = nil
-            
+
+            // Check if we can load a UIImage
             if provider.canLoadObject(ofClass: UIImage.self) {
-                print("image selected")
                 provider.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async {
-                        guard let uiImage = image as? UIImage else { return }
-                        if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
-                            let tempURL = FileManager.default.temporaryDirectory
-                                .appendingPathComponent(UUID().uuidString + ".jpg")
-                            do {
-                                try jpegData.write(to: tempURL)
-                                self.parent.imageURL = tempURL
-                            } catch {
-                                print("Error saving image: \(error.localizedDescription)")
-                            }
+                        guard let uiImage = image as? UIImage else {
+                            picker.dismiss(animated: true)
+                            return
                         }
+
+                        // --- Present the confirmation screen ---
+                        let confirmationView = ImageConfirmationView(
+                            uiImage: uiImage,
+                            onConfirm: {
+                                // When confirmed, write to a temporary file, update parent, and dismiss
+                                if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
+                                    let tempURL = FileManager.default.temporaryDirectory
+                                        .appendingPathComponent(UUID().uuidString + ".jpg")
+                                    do {
+                                        try jpegData.write(to: tempURL)
+                                        self.parent.imageURL = tempURL
+                                    } catch {
+                                        print("Error saving image: \(error.localizedDescription)")
+                                    }
+                                }
+                                picker.dismiss(animated: true)
+                            }
+                        )
+
+                        // Present the SwiftUI confirmation view in a UIHostingController
+                        let hostingController = UIHostingController(rootView: confirmationView)
+                        
+                        // Present on top of the picker
+                        picker.present(hostingController, animated: true)
                     }
                 }
+            } else {
+                // If no valid image was found, just dismiss
+                picker.dismiss(animated: true)
             }
         }
+    }
+}
+
+struct ImageConfirmationView: View {
+    let uiImage: UIImage
+    let onConfirm: () -> Void
+    @Environment(\.dismiss) var dismiss
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Confirm Your Image")
+                .font(.headline)
+
+            Spacer()
+            
+            // Show the selected image
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 400)
+            
+            Spacer()
+            
+            HStack {
+                Button(role: .cancel) {
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.secondary.opacity(0.3))
+                        .cornerRadius(9)
+                }
+
+                Button {
+                    onConfirm()
+                } label: {
+                    Text("Confirm")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.secondary.opacity(0.3))
+                        .cornerRadius(9)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding()
     }
 }
