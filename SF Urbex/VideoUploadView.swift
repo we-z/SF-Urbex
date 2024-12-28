@@ -16,8 +16,27 @@ struct UploadMediaView: View {
         NavigationView {
             VStack {
                 Spacer()
-                Button("Select Photo") {
+                Button {
                     showPicker = true
+                } label: {
+                    Rectangle()
+                        .foregroundColor(.secondary)
+                        .opacity(0.3)
+                        .aspectRatio(contentMode: .fit)
+                        .overlay(
+                            AsyncImage(url: imageURL) { image in
+                                image.resizable().scaledToFill()
+                            } placeholder: {
+                                VStack {
+                                    Image(systemName: "plus")
+                                        .font(.largeTitle)
+                                        .padding()
+                                    Text("Select Photo")
+                                }
+                            }
+                        )
+                        .cornerRadius(30)
+                    
                 }
                 .accentColor(.primary)
                 .padding()
