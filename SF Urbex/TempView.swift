@@ -11,17 +11,17 @@ import AVKit
 struct TempView: View {
     var body: some View {
         ZStack {
-            Color.blue
+            Color.black
                 .aspectRatio(contentMode: .fit)
-            Image(systemName: "shield")
+            Image(systemName: "shield.fill")
                 .foregroundColor(.white)
-                .font(.system(size: 330))
+                .font(.system(size: 300))
             Image(systemName: "lock.fill")
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .font(.system(size: 210))
                 .offset(y: -15)
             Image(systemName: "camera.fill")
-                .foregroundColor(.blue)
+                .foregroundColor(.white)
                 .font(.system(size: 75))
                 .offset(y: 27)
             
