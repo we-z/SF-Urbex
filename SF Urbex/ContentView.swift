@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var cloudKitManager = CloudKitManager()
 
     var body: some View {
         TabView {
@@ -19,7 +18,7 @@ struct ContentView: View {
                 }
 
             // Upload Tab
-            UploadMediaView(cloudKitManager: cloudKitManager)
+            UploadMediaView()
                 .tabItem {
                     Image(systemName: "plus.app")
                 }
