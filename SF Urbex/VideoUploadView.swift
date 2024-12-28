@@ -14,28 +14,31 @@ struct UploadMediaView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 16) {
-
-                Button("Select Media") {
+            VStack {
+                Spacer()
+                Button("Select Photo") {
                     showPicker = true
                 }
+                .accentColor(.primary)
                 .padding()
+                
+                Spacer()
 
-//                if isSelectingMedia {
-//                    ProgressView("Selecting Media...")
-//                        .padding()
-//                } else {
-                    selectedMediaPreview
-//                        .frame(height: 200)
-//                        .cornerRadius(15)
-//                        .padding()
-//                }
-
-                Button("Upload") {
+                Button {
                     isUploading = true
                     uploadMedia()
+                } label: {
+                    HStack{
+                        Spacer()
+                        Text("Upload")
+                            .padding()
+                        Spacer()
+                    }
+                    .background(.secondary.opacity(0.3))
+                    .cornerRadius(12)
+                    .padding()
                 }
-                .padding()
+                .accentColor(.primary)
                 .disabled(shouldDisableUploadButton)
 
                 if isUploading {
@@ -44,9 +47,9 @@ struct UploadMediaView: View {
                         .padding()
                 }
 
-                Spacer()
+                
             }
-            .navigationTitle("Upload Media")
+            .navigationTitle("Share Photo")
             .sheet(isPresented: $showPicker) {
                 MediaPicker(imageURL: $imageURL)
                     .onAppear {
