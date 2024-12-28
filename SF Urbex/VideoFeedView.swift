@@ -55,8 +55,16 @@ struct MediaCard: View {
                 Circle()
                     .foregroundColor(.secondary)
                     .opacity(0.3)
+                    .overlay(
+                        AsyncImage(url: item.imageURL) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    )
                     .frame(width: 40, height: 40)
-                Text("SF.Urbexer")
+                    .cornerRadius(30)
+                Text("Anon.Urbexer")
                     .font(.headline)
                 Spacer()
             }
