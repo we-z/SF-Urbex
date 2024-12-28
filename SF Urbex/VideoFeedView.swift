@@ -24,6 +24,16 @@ struct MediaFeedView: View {
             }
             .scrollIndicators(.hidden)
             .navigationTitle("Hush Post")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        print("Pressed")
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                            .font(.title)
+                    }
+                }
+            }
             .refreshable {
                 cloudKitManager.fetchAllMedia()
             }
