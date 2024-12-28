@@ -109,6 +109,7 @@ struct UploadMediaView: View {
                     .onAppear {
                         isSelectingMedia = true
                     }
+                    .accentColor(.primary)
             }
         }
     }
