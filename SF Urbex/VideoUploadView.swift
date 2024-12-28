@@ -62,6 +62,7 @@ struct UploadMediaView: View {
                     HStack{
                         Spacer()
                         Text("Upload")
+                            .font(.title2)
                             .padding()
                         Spacer()
                     }
