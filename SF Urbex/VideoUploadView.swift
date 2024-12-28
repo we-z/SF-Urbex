@@ -247,6 +247,7 @@ struct ImageConfirmationView: View {
                         .background(Color.secondary.opacity(0.3))
                         .cornerRadius(9)
                 }
+                .accentColor(.primary)
 
                 Button {
                     onConfirm()
@@ -257,6 +258,7 @@ struct ImageConfirmationView: View {
                         .background(Color.secondary.opacity(0.3))
                         .cornerRadius(9)
                 }
+                .accentColor(.primary)
             }
             .padding(.horizontal)
         }
