@@ -47,6 +47,9 @@ struct UploadMediaView: View {
                         showPicker = true
                     } label: {
                         Text("Change Photo")
+                            .padding()
+                            .background(.secondary.opacity(0.3))
+                            .cornerRadius(12)
                     }
                     .accentColor(.primary)
                 }
