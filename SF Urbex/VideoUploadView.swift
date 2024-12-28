@@ -196,6 +196,7 @@ struct MediaPicker: UIViewControllerRepresentable {
                                     do {
                                         try jpegData.write(to: tempURL)
                                         self.parent.imageURL = tempURL
+                                        picker.dismiss(animated: true)
                                     } catch {
                                         print("Error saving image: \(error.localizedDescription)")
                                     }
