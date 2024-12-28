@@ -234,7 +234,6 @@ struct ImageConfirmationView: View {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFit()
-                .frame(maxHeight: 400)
             
             Spacer()
             
