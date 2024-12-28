@@ -189,7 +189,7 @@ struct MediaPicker: UIViewControllerRepresentable {
                             uiImage: uiImage,
                             onConfirm: {
                                 // When confirmed, write to a temporary file, update parent, and dismiss
-                                if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
+                                if let jpegData = uiImage.jpegData(compressionQuality: 1.0) {
                                     let tempURL = FileManager.default.temporaryDirectory
                                         .appendingPathComponent(UUID().uuidString + ".jpg")
                                     do {
