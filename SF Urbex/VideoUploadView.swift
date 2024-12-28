@@ -226,6 +226,7 @@ struct ImageConfirmationView: View {
         VStack(spacing: 20) {
             Text("Confirm Your Image")
                 .font(.headline)
+                .padding()
 
             Spacer()
             
@@ -261,7 +262,8 @@ struct ImageConfirmationView: View {
                 .accentColor(.primary)
             }
             .padding(.horizontal)
+            .padding()
         }
-        .padding()
+        
     }
 }
