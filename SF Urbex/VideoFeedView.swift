@@ -59,7 +59,7 @@ struct MediaCard: View {
                         AsyncImage(url: item.imageURL) { image in
                             image.resizable().scaledToFill()
                         } placeholder: {
-                            ProgressView()
+                            EmptyView()
                         }
                     )
                     .frame(width: 40, height: 40)
