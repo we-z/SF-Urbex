@@ -44,7 +44,6 @@ struct TempView: View {
             }
             .offset(y: 25)
             
-            VideoPlayer(player: AVPlayer(url:  URL(string: "https://bit.ly/swswift")!))
         }
     }
 }

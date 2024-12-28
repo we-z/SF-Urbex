@@ -5,10 +5,6 @@ import AVKit
 struct UploadMediaView: View {
     @ObservedObject var cloudKitManager: CloudKitManager = CloudKitManager()
 
-    // We will detect if it's a video or an image automatically
-    @State private var isVideoSelected = false
-
-    @State private var videoURL: URL?
     @State private var imageURL: URL?
 
     @State private var showPicker = false
@@ -52,10 +48,7 @@ struct UploadMediaView: View {
             }
             .navigationTitle("Upload Media")
             .sheet(isPresented: $showPicker) {
-                MediaPicker(isVideoSelected: $isVideoSelected, videoURL: $videoURL, imageURL: $imageURL)
-                    .onChange(of: isVideoSelected) { _ in
-                        isSelectingMedia = false
-                    }
+                MediaPicker(imageURL: $imageURL)
                     .onAppear {
                         isSelectingMedia = true
                     }
@@ -64,25 +57,12 @@ struct UploadMediaView: View {
     }
 
     private var shouldDisableUploadButton: Bool {
-        if isVideoSelected {
-            return (videoURL == nil)
-        } else {
-            return (imageURL == nil)
-        }
+        return (imageURL == nil)
     }
 
     @ViewBuilder
     private var selectedMediaPreview: some View {
-        if isVideoSelected, let videoURL = videoURL {
-            Rectangle()
-                .foregroundColor(.secondary)
-                .opacity(0.3)
-                .aspectRatio(contentMode: .fill)
-                .overlay(
-                    VideoPlayer(player: AVPlayer(url: videoURL))
-                )
-                .cornerRadius(30)
-        } else if let imageURL = imageURL {
+        if let imageURL = imageURL {
             Rectangle()
                 .foregroundColor(.secondary)
                 .opacity(0.3)
@@ -95,24 +75,11 @@ struct UploadMediaView: View {
                     }
                 )
                 .cornerRadius(30)
-        } else {
-            EmptyView()
         }
     }
 
     private func uploadMedia() {
-        if isVideoSelected, let videoURL = videoURL {
-            cloudKitManager.uploadVideo(videoURL: videoURL) { progress in
-                DispatchQueue.main.async {
-                    uploadProgress = progress
-                }
-            } completion: {
-                DispatchQueue.main.async {
-                    isUploading = false
-                    uploadProgress = 0.0
-                }
-            }
-        } else if let imageURL = imageURL {
+        if let imageURL = imageURL {
             cloudKitManager.uploadImage(imageURL: imageURL) { progress in
                 DispatchQueue.main.async {
                     uploadProgress = progress
@@ -128,15 +95,12 @@ struct UploadMediaView: View {
 }
 
 struct MediaPicker: UIViewControllerRepresentable {
-    @Binding var isVideoSelected: Bool
     
-    @Binding var videoURL: URL?
     @Binding var imageURL: URL?
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
-        // Allow picking images or videos
-        config.filter = .any(of: [.images, .videos])
+        config.filter = .any(of: [.images])
         config.selectionLimit = 1
         
         let picker = PHPickerViewController(configuration: config)
@@ -161,27 +125,10 @@ struct MediaPicker: UIViewControllerRepresentable {
             picker.dismiss(animated: true)
             guard let provider = results.first?.itemProvider else { return }
             
-            parent.videoURL = nil
             parent.imageURL = nil
             
-            if provider.hasItemConformingToTypeIdentifier("public.movie") {
-                print("video selected")
-                parent.isVideoSelected = true
-                provider.loadFileRepresentation(forTypeIdentifier: "public.movie") { url, error in
-                    guard let url = url else { return }
-                    let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".mov")
-                    do {
-                        try FileManager.default.copyItem(at: url, to: tempURL)
-                        DispatchQueue.main.async {
-                            self.parent.videoURL = tempURL
-                        }
-                    } catch {
-                        print("Error copying video: \(error.localizedDescription)")
-                    }
-                }
-            } else if provider.canLoadObject(ofClass: UIImage.self) {
+            if provider.canLoadObject(ofClass: UIImage.self) {
                 print("image selected")
-                parent.isVideoSelected = false
                 provider.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async {
                         guard let uiImage = image as? UIImage else { return }

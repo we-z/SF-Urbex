@@ -28,7 +28,6 @@ struct MediaFeedView: View {
                 cloudKitManager.fetchAllMedia()
             }
             .onAppear {
-                // Fetch both videos and photos
                 cloudKitManager.fetchAllMedia()
             }
         }
@@ -48,43 +47,23 @@ struct MediaCard: View {
                     .foregroundColor(.secondary)
                     .opacity(0.3)
                     .frame(width: 40, height: 40)
-                Text(item.title)
+                Text("SF.Urbexer")
                     .font(.headline)
                 Spacer()
             }
             .padding()
-            
-            switch item.type {
-            case .video:
-                Rectangle()
-                    .foregroundColor(.secondary)
-                    .opacity(0.3)
-                    .aspectRatio(contentMode: .fill)
-                    .overlay(
-                        Group {
-                            if let videoURL = item.videoURL {
-                                VideoPlayer(player: AVPlayer(url: videoURL))
-                                    .scaledToFill()
-                            } else {
-                                ProgressView()
-                            }
-                        }
-                    )
-                    .cornerRadius(30)
-            case .photo:
-                Rectangle()
-                    .foregroundColor(.secondary)
-                    .opacity(0.3)
-                    .aspectRatio(contentMode: .fill)
-                    .overlay(
-                        AsyncImage(url: item.imageURL) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                    )
-                    .cornerRadius(30)
-            }
+            Rectangle()
+                .foregroundColor(.secondary)
+                .opacity(0.3)
+                .aspectRatio(contentMode: .fill)
+                .overlay(
+                    AsyncImage(url: item.imageURL) { image in
+                        image.resizable().scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                )
+                .cornerRadius(30)
         }
     }
 }
