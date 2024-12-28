@@ -17,7 +17,9 @@ struct UploadMediaView: View {
             VStack {
                 Spacer()
                 Button {
-                    showPicker = true
+                    if (imageURL == nil) {
+                        showPicker = true
+                    }
                 } label: {
                     Rectangle()
                         .foregroundColor(.secondary)
@@ -40,7 +42,14 @@ struct UploadMediaView: View {
                 }
                 .accentColor(.primary)
                 .padding()
-                
+                if (imageURL != nil) {
+                    Button {
+                        showPicker = true
+                    } label: {
+                        Text("Change Photo")
+                    }
+                    .accentColor(.primary)
+                }
                 Spacer()
 
                 Button {
