@@ -20,7 +20,6 @@ struct MediaFeedView: View {
                         MediaCard(item: item)
                     }
                 }
-                .padding()
             }
             .scrollIndicators(.hidden)
             .navigationTitle("Hush Post")
@@ -75,6 +74,7 @@ struct MediaCard: View {
                 )
                 .cornerRadius(30)
         }
+        .padding()
     }
 }
 
