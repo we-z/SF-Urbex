@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		763BAEF32D17FA7F00D5605C /* SF Urbex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF Urbex.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		763BAEF32D17FA7F00D5605C /* Hush Post.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hush Post.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		763BAF032D17FA8100D5605C /* SF UrbexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SF UrbexTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		763BAF0D2D17FA8100D5605C /* SF UrbexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SF UrbexUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -85,7 +85,7 @@
 		763BAEF42D17FA7F00D5605C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				763BAEF32D17FA7F00D5605C /* SF Urbex.app */,
+				763BAEF32D17FA7F00D5605C /* Hush Post.app */,
 				763BAF032D17FA8100D5605C /* SF UrbexTests.xctest */,
 				763BAF0D2D17FA8100D5605C /* SF UrbexUITests.xctest */,
 			);
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		763BAEF22D17FA7F00D5605C /* SF Urbex */ = {
+		763BAEF22D17FA7F00D5605C /* Hush Post */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 763BAF172D17FA8100D5605C /* Build configuration list for PBXNativeTarget "SF Urbex" */;
+			buildConfigurationList = 763BAF172D17FA8100D5605C /* Build configuration list for PBXNativeTarget "Hush Post" */;
 			buildPhases = (
 				763BAEEF2D17FA7F00D5605C /* Sources */,
 				763BAEF02D17FA7F00D5605C /* Frameworks */,
@@ -110,11 +110,11 @@
 			fileSystemSynchronizedGroups = (
 				763BAEF52D17FA7F00D5605C /* SF Urbex */,
 			);
-			name = "SF Urbex";
+			name = "Hush Post";
 			packageProductDependencies = (
 			);
 			productName = "SF Urbex";
-			productReference = 763BAEF32D17FA7F00D5605C /* SF Urbex.app */;
+			productReference = 763BAEF32D17FA7F00D5605C /* Hush Post.app */;
 			productType = "com.apple.product-type.application";
 		};
 		763BAF022D17FA8100D5605C /* SF UrbexTests */ = {
@@ -200,7 +200,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				763BAEF22D17FA7F00D5605C /* SF Urbex */,
+				763BAEF22D17FA7F00D5605C /* Hush Post */,
 				763BAF022D17FA8100D5605C /* SF UrbexTests */,
 				763BAF0C2D17FA8100D5605C /* SF UrbexUITests */,
 			);
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		763BAF052D17FA8100D5605C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 763BAEF22D17FA7F00D5605C /* SF Urbex */;
+			target = 763BAEF22D17FA7F00D5605C /* Hush Post */;
 			targetProxy = 763BAF042D17FA8100D5605C /* PBXContainerItemProxy */;
 		};
 		763BAF0F2D17FA8100D5605C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 763BAEF22D17FA7F00D5605C /* SF Urbex */;
+			target = 763BAEF22D17FA7F00D5605C /* Hush Post */;
 			targetProxy = 763BAF0E2D17FA8100D5605C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -536,7 +536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		763BAF172D17FA8100D5605C /* Build configuration list for PBXNativeTarget "SF Urbex" */ = {
+		763BAF172D17FA8100D5605C /* Build configuration list for PBXNativeTarget "Hush Post" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				763BAF182D17FA8100D5605C /* Debug */,
