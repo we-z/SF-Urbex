@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import AVKit
 
 struct MediaFeedView: View {
@@ -92,24 +93,30 @@ struct MediaCard: View {
 // MARK: - Full Image View
 struct FullImageView: View {
     let imageURL: URL?
-
+    
     var body: some View {
         GeometryReader { geometry in
             if let imageURL = imageURL,
                let uiImage = loadUIImage(from: imageURL) {
                 let isLandscape = uiImage.size.width > uiImage.size.height
 
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFit()
-                    .rotationEffect(isLandscape ? .degrees(90) : .degrees(0))
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .edgesIgnoringSafeArea(.all)
+                if isLandscape {
+                    Image(uiImage: flipUIImage(uiImage))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                } else {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                }
             } else {
                 ProgressView()
                     .frame(width: geometry.size.width, height: geometry.size.height)
             }
         }
+        .edgesIgnoringSafeArea(.all)
     }
 
     private func loadUIImage(from url: URL) -> UIImage? {
@@ -118,6 +125,18 @@ struct FullImageView: View {
             return uiImage
         }
         return nil
+    }
+
+    private func flipUIImage(_ image: UIImage) -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: image.size.height, height: image.size.width))
+        if let context = UIGraphicsGetCurrentContext() {
+            context.translateBy(x: image.size.height / 2, y: image.size.width / 2)
+            context.rotate(by: .pi / 2)
+            image.draw(in: CGRect(x: -image.size.width / 2, y: -image.size.height / 2, width: image.size.width, height: image.size.height))
+        }
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return rotatedImage ?? image
     }
 }
 
