@@ -120,7 +120,6 @@ struct FullImageView: View {
         VStack {
             Spacer()
                 if let uiImage = uiImage {
-    
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
@@ -134,7 +133,10 @@ struct FullImageView: View {
                                     }
                                 })
                                 .onEnded({ _ in
-                                    lastScale = scale
+                                    withAnimation(.interactiveSpring()) {
+                                        scale = 1.0
+                                        lastScale = 0.0
+                                    }
                                 })
                                 .simultaneously(
                                     with: DragGesture(minimumDistance: 0)
@@ -144,7 +146,10 @@ struct FullImageView: View {
                                             }
                                         })
                                         .onEnded({ _ in
-                                            lastOffset = offset
+                                            withAnimation(.interactiveSpring()) {
+                                                offset = .zero
+                                                lastOffset = .zero
+                                            }
                                         })
 
                                 )
