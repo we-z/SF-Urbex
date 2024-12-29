@@ -98,12 +98,10 @@ struct MediaCard: View {
 // MARK: - Full Image View
 struct FullImageView: View {
     let uiImage: UIImage?
-    
+    @GestureState private var zoom = 1.0
     var body: some View {
         VStack {
             Spacer()
-            Spacer()
-            GeometryReader { geometry in
                 if let uiImage = uiImage {
                     let isLandscape = uiImage.size.width > uiImage.size.height
                     
@@ -111,19 +109,26 @@ struct FullImageView: View {
                         Image(uiImage: flipUIImage(uiImage))
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .scaleEffect(zoom)
+                            .gesture(
+                                MagnificationGesture()
+                                    .updating($zoom) { currentState, gestureState, transaction in
+                                        gestureState = currentState
+                                    }
+                            )
                     } else {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .scaleEffect(zoom)
+                            .gesture(
+                                MagnificationGesture()
+                                    .updating($zoom) { currentState, gestureState, transaction in
+                                        gestureState = currentState
+                                    }
+                            )
                     }
-                } else {
-                    ProgressView()
-                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
-            }
-            .edgesIgnoringSafeArea(.all)
             Spacer()
         }
         
