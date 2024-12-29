@@ -69,8 +69,10 @@ struct MediaCard: View {
                     Rectangle()
                         .foregroundColor(.secondary)
                         .opacity(0.3)
-                    if let imageURL = item.imageURL, let uiImage = loadUIImage(from: imageURL) {
-                        NavigationLink(destination: FullImageView(uiImage: uiImage)) {
+                    if let imageURL = item.imageURL,
+                        let uiImage = loadUIImage(from: imageURL) {
+                        let isLandscape = uiImage.size.width < uiImage.size.height
+                        NavigationLink(destination: isLandscape ? FullImageView(uiImage: uiImage) : FullImageView(uiImage: flipUIImage(uiImage))) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFit()
@@ -84,6 +86,18 @@ struct MediaCard: View {
                 .cornerRadius(30)
         }
         .padding([.horizontal, .top])
+    }
+    
+    private func flipUIImage(_ image: UIImage) -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: image.size.height, height: image.size.width))
+        if let context = UIGraphicsGetCurrentContext() {
+            context.translateBy(x: image.size.height / 2, y: image.size.width / 2)
+            context.rotate(by: .pi / 2)
+            image.draw(in: CGRect(x: -image.size.width / 2, y: -image.size.height / 2, width: image.size.width, height: image.size.height))
+        }
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return rotatedImage ?? image
     }
     
     private func loadUIImage(from url: URL) -> UIImage? {
@@ -103,47 +117,21 @@ struct FullImageView: View {
         VStack {
             Spacer()
                 if let uiImage = uiImage {
-                    let isLandscape = uiImage.size.width > uiImage.size.height
-                    
-                    if isLandscape {
-                        Image(uiImage: flipUIImage(uiImage))
-                            .resizable()
-                            .scaledToFit()
-                            .scaleEffect(zoom)
-                            .gesture(
-                                MagnificationGesture()
-                                    .updating($zoom) { currentState, gestureState, transaction in
-                                        gestureState = currentState
-                                    }
-                            )
-                    } else {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFit()
-                            .scaleEffect(zoom)
-                            .gesture(
-                                MagnificationGesture()
-                                    .updating($zoom) { currentState, gestureState, transaction in
-                                        gestureState = currentState
-                                    }
-                            )
-                    }
+    
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(zoom)
+                        .gesture(
+                            MagnificationGesture()
+                                .updating($zoom) { currentState, gestureState, transaction in
+                                    gestureState = currentState
+                                }
+                        )
                 }
             Spacer()
         }
         
-    }
-
-    private func flipUIImage(_ image: UIImage) -> UIImage {
-        UIGraphicsBeginImageContext(CGSize(width: image.size.height, height: image.size.width))
-        if let context = UIGraphicsGetCurrentContext() {
-            context.translateBy(x: image.size.height / 2, y: image.size.width / 2)
-            context.rotate(by: .pi / 2)
-            image.draw(in: CGRect(x: -image.size.width / 2, y: -image.size.height / 2, width: image.size.width, height: image.size.height))
-        }
-        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return rotatedImage ?? image
     }
 }
 
