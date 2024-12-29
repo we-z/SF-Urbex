@@ -112,7 +112,6 @@ struct MediaCard: View {
 // MARK: - Full Image View
 struct FullImageView: View {
     let uiImage: UIImage?
-    @GestureState private var zoom = 1.0
     @State var scale = 1.0
     @State var lastScale = 0.0
     @State var offset: CGSize = .zero
