@@ -71,8 +71,7 @@ struct MediaCard: View {
             }
             .padding()
             
-            NavigationLink(destination: FullImageView(imageURL: item.imageURL)
-                .toolbar(.hidden, for: .tabBar)) {
+            NavigationLink(destination: FullImageView(imageURL: item.imageURL)) {
                 Rectangle()
                     .foregroundColor(.secondary)
                     .opacity(0.3)
@@ -96,28 +95,34 @@ struct FullImageView: View {
     let imageURL: URL?
     
     var body: some View {
-        GeometryReader { geometry in
-            if let imageURL = imageURL,
-               let uiImage = loadUIImage(from: imageURL) {
-                let isLandscape = uiImage.size.width > uiImage.size.height
-
-                if isLandscape {
-                    Image(uiImage: flipUIImage(uiImage))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geometry.size.width, height: geometry.size.height)
+        VStack {
+            Spacer()
+            Spacer()
+            GeometryReader { geometry in
+                if let imageURL = imageURL,
+                   let uiImage = loadUIImage(from: imageURL) {
+                    let isLandscape = uiImage.size.width > uiImage.size.height
+                    
+                    if isLandscape {
+                        Image(uiImage: flipUIImage(uiImage))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                    } else {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
                 } else {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
+                    ProgressView()
                         .frame(width: geometry.size.width, height: geometry.size.height)
                 }
-            } else {
-                ProgressView()
-                    .frame(width: geometry.size.width, height: geometry.size.height)
             }
+            .edgesIgnoringSafeArea(.all)
+            Spacer()
         }
-        .edgesIgnoringSafeArea(.all)
+        
     }
 
     private func loadUIImage(from url: URL) -> UIImage? {
