@@ -64,16 +64,17 @@ struct MediaCard: View {
             }
             .padding()
             
-            NavigationLink(destination: FullImageView(imageURL: item.imageURL)) {
+            
                 ZStack {
                     Rectangle()
                         .foregroundColor(.secondary)
                         .opacity(0.3)
                     if let imageURL = item.imageURL, let uiImage = loadUIImage(from: imageURL) {
-                        
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFit()
+                        NavigationLink(destination: FullImageView(uiImage: uiImage)) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                        }
                     } else {
                         
                         ProgressView()
@@ -81,7 +82,6 @@ struct MediaCard: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .cornerRadius(30)
-            }
         }
         .padding([.horizontal, .top])
     }
@@ -97,15 +97,14 @@ struct MediaCard: View {
 
 // MARK: - Full Image View
 struct FullImageView: View {
-    let imageURL: URL?
+    let uiImage: UIImage?
     
     var body: some View {
         VStack {
             Spacer()
             Spacer()
             GeometryReader { geometry in
-                if let imageURL = imageURL,
-                   let uiImage = loadUIImage(from: imageURL) {
+                if let uiImage = uiImage {
                     let isLandscape = uiImage.size.width > uiImage.size.height
                     
                     if isLandscape {
@@ -128,14 +127,6 @@ struct FullImageView: View {
             Spacer()
         }
         
-    }
-
-    private func loadUIImage(from url: URL) -> UIImage? {
-        if let data = try? Data(contentsOf: url),
-           let uiImage = UIImage(data: data) {
-            return uiImage
-        }
-        return nil
     }
 
     private func flipUIImage(_ image: UIImage) -> UIImage {
