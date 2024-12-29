@@ -56,13 +56,6 @@ struct MediaCard: View {
                 Circle()
                     .foregroundColor(.secondary)
                     .opacity(0.3)
-                    .overlay(
-                        AsyncImage(url: item.imageURL) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            EmptyView()
-                        }
-                    )
                     .frame(width: 40, height: 40)
                     .cornerRadius(30)
                 Text("Anon.Urbexer")
@@ -72,21 +65,33 @@ struct MediaCard: View {
             .padding()
             
             NavigationLink(destination: FullImageView(imageURL: item.imageURL)) {
-                Rectangle()
-                    .foregroundColor(.secondary)
-                    .opacity(0.3)
-                    .aspectRatio(contentMode: .fill)
-                    .overlay(
-                        AsyncImage(url: item.imageURL) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                    )
-                    .cornerRadius(30)
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(.secondary)
+                        .opacity(0.3)
+                    if let imageURL = item.imageURL, let uiImage = loadUIImage(from: imageURL) {
+                        
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        
+                        ProgressView()
+                    }
+                }
+                .aspectRatio(contentMode: .fit)
+                .cornerRadius(30)
             }
         }
         .padding([.horizontal, .top])
+    }
+    
+    private func loadUIImage(from url: URL) -> UIImage? {
+        if let data = try? Data(contentsOf: url),
+           let uiImage = UIImage(data: data) {
+            return uiImage
+        }
+        return nil
     }
 }
 
