@@ -69,20 +69,55 @@ struct MediaCard: View {
                 Spacer()
             }
             .padding()
-            Rectangle()
-                .foregroundColor(.secondary)
-                .opacity(0.3)
-                .aspectRatio(contentMode: .fill)
-                .overlay(
-                    AsyncImage(url: item.imageURL) { image in
-                        image.resizable().scaledToFill()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                )
-                .cornerRadius(30)
+            
+            NavigationLink(destination: FullImageView(imageURL: item.imageURL)) {
+                Rectangle()
+                    .foregroundColor(.secondary)
+                    .opacity(0.3)
+                    .aspectRatio(contentMode: .fill)
+                    .overlay(
+                        AsyncImage(url: item.imageURL) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    )
+                    .cornerRadius(30)
+            }
         }
         .padding([.horizontal, .top])
+    }
+}
+
+// MARK: - Full Image View
+struct FullImageView: View {
+    let imageURL: URL?
+
+    var body: some View {
+        GeometryReader { geometry in
+            if let imageURL = imageURL,
+               let uiImage = loadUIImage(from: imageURL) {
+                let isLandscape = uiImage.size.width > uiImage.size.height
+
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .rotationEffect(isLandscape ? .degrees(90) : .degrees(0))
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .edgesIgnoringSafeArea(.all)
+            } else {
+                ProgressView()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+        }
+    }
+
+    private func loadUIImage(from url: URL) -> UIImage? {
+        if let data = try? Data(contentsOf: url),
+           let uiImage = UIImage(data: data) {
+            return uiImage
+        }
+        return nil
     }
 }
 
