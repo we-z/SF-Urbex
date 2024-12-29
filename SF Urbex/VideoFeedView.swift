@@ -23,7 +23,7 @@ struct MediaFeedView: View {
                 }
             }
             .scrollIndicators(.hidden)
-            .navigationTitle("Hush Post")
+            .navigationTitle("Hushpost")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -113,6 +113,10 @@ struct MediaCard: View {
 struct FullImageView: View {
     let uiImage: UIImage?
     @GestureState private var zoom = 1.0
+    @State var scale = 1.0
+    @State var lastScale = 0.0
+    @State var offset: CGSize = .zero
+    @State var lastOffset: CGSize = .zero
     var body: some View {
         VStack {
             Spacer()
@@ -121,17 +125,48 @@ struct FullImageView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
-                        .scaleEffect(zoom)
+                        .scaleEffect(scale)
+                        .offset(offset)
                         .gesture(
                             MagnificationGesture()
-                                .updating($zoom) { currentState, gestureState, transaction in
-                                    gestureState = currentState
-                                }
+                                .onChanged({ value in
+                                    withAnimation(.interactiveSpring()) {
+                                        scale = handleScaleChange(value)
+                                    }
+                                })
+                                .onEnded({ _ in
+                                    lastScale = scale
+                                })
+                                .simultaneously(
+                                    with: DragGesture(minimumDistance: 0)
+                                        .onChanged({ value in
+                                            withAnimation(.interactiveSpring()) {
+                                                offset = handleOffsetChange(value.translation)
+                                            }
+                                        })
+                                        .onEnded({ _ in
+                                            lastOffset = offset
+                                        })
+
+                                )
                         )
                 }
             Spacer()
         }
         
+    }
+    
+    private func handleScaleChange(_ zoom: CGFloat) -> CGFloat {
+        lastScale + zoom - (lastScale == 0 ? 0 : 1)
+    }
+    
+    private func handleOffsetChange(_ offset: CGSize) -> CGSize {
+        var newOffset: CGSize = .zero
+
+        newOffset.width = offset.width + lastOffset.width
+        newOffset.height = offset.height + lastOffset.height
+
+        return newOffset
     }
 }
 
