@@ -71,7 +71,8 @@ struct MediaCard: View {
             }
             .padding()
             
-            NavigationLink(destination: FullImageView(imageURL: item.imageURL)) {
+            NavigationLink(destination: FullImageView(imageURL: item.imageURL)
+                .toolbar(.hidden, for: .tabBar)) {
                 Rectangle()
                     .foregroundColor(.secondary)
                     .opacity(0.3)
