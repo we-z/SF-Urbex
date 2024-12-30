@@ -48,6 +48,20 @@ struct OnboardingView: View {
             TabView(selection: $tabSelection) {
                 ForEach(pages.indices, id: \.self) { index in
                     VStack {
+                        
+                        if index == pages.count - 1 {
+                            HStack{
+                                ForEach(0..<5, id: \.self) { _ in
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 45, height: 45) // Adjust the size as needed
+                                        
+                                }
+                            }
+                            .padding()
+                            
+                        }
                         // Large SF Symbol icon
                         Image(systemName: pages[index].systemName)
                             .resizable()
@@ -66,7 +80,7 @@ struct OnboardingView: View {
                         Text(pages[index].description)
                             .font(.body)
                             .multilineTextAlignment(.center)
-                            .padding(.horizontal, 30)
+                            .padding()
                     }
                     .tag(index)
                 }
