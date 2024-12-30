@@ -12,36 +12,56 @@ import AVKit
 struct MediaFeedView: View {
     @StateObject private var cloudKitManager = CloudKitManager()
     @State private var showUploadSheet = false
+    @State private var feed = 0
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack {
-                    ForEach(cloudKitManager.mediaItems) { item in
-                        MediaCard(item: item)
+            VStack{
+                ScrollView {
+                    LazyVStack {
+                        ForEach(cloudKitManager.mediaItems) { item in
+                            MediaCard(item: item)
+                        }
                     }
                 }
-            }
-            .scrollIndicators(.hidden)
-            .navigationTitle("Hushpost")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        print("Pressed")
-                    } label: {
-                        Image(systemName: "magnifyingglass")
-                            .font(.title2)
+                .scrollIndicators(.hidden)
+                .navigationTitle("Hushpost")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            print("Pressed")
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                                .font(.title3)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            print("Pressed")
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                                .font(.title3)
+                        }
+                    }
+                    ToolbarItem(placement: .principal) {
+                        Picker("Color", selection: $feed) {
+                            Text("Everyone").tag(0)
+                            Text("Following").tag(1)
+                        }
+                        .frame(width: 180)
+                        
+                        .pickerStyle(SegmentedPickerStyle())
+                        
                     }
                 }
-            }
-            .refreshable {
-                cloudKitManager.fetchAllMedia()
-            }
-            .onAppear {
-                cloudKitManager.fetchAllMedia()
+                .refreshable {
+                    cloudKitManager.fetchAllMedia()
+                }
+                .onAppear {
+                    cloudKitManager.fetchAllMedia()
+                }
             }
         }
-//        .accentColor(.primary)
     }
 }
 
