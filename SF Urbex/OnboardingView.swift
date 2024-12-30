@@ -22,7 +22,7 @@ struct OnboardingView: View {
     private let pages: [OnboardingPage] = [
         OnboardingPage(
             systemName: "eye.slash",
-            title: "Defeat Social Media Surveillance",
+            title: "Escape Social Media Surveillance",
             description: "Share photos privatly. Protect your memories from prying eyes and mass data collection."
         ),
         OnboardingPage(
