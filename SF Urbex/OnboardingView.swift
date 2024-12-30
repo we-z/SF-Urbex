@@ -100,6 +100,7 @@ struct OnboardingView: View {
                 } else {
                     // Implement your "Rate us" action here
                     print("Rate us tapped")
+                    tabSelection += 1
                 }
             }) {
                 Text(tabSelection == pages.count - 1 ? "Rate Us" : "Next")
@@ -113,7 +114,8 @@ struct OnboardingView: View {
                     .padding()
             }
         }
-        .animation(.easeInOut, value: tabSelection)
+        .animation(.spring, value: tabSelection)
+        .opacity(tabSelection == pages.count ? 0 : 1)
     }
 }
 
