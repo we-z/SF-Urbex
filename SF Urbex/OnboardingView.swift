@@ -23,22 +23,22 @@ struct OnboardingView: View {
         OnboardingPage(
             systemName: "eye.slash",
             title: "Defeating mass surveillance",
-            description: "We use cutting-edge encryption and privacy-first technologies to keep your messages and data safe from prying eyes. Feel confident knowing your personal information stays truly personal."
+            description: "Share photos privatly. Protect your memories from prying eyes and mass data collection."
         ),
         OnboardingPage(
-            systemName: "lock.shield",
-            title: "A new world of social privacy",
-            description: "Connect with friends and loved ones without worrying about data leaks. Our secure sharing features help you communicate freely without sacrificing convenience."
+            systemName: "lock.icloud.fill",
+            title: "Private Sharing Made Easy",
+            description: "Securely share your iCloud photos. Enjoy a seamless, privacy-first experience."
         ),
         OnboardingPage(
             systemName: "person.3.fill",
             title: "Private Communities",
-            description: "Build and join invite-only groups that are fully protected. Share ideas, collaborate on projects, or just hang out with people you trust, all behind a secure digital wall."
+            description: "Create exclusive groups for trusted connections. Share and engage within a secure circle."
         ),
         OnboardingPage(
-            systemName: "globe.europe.africa.fill",
+            systemName: "globe",
             title: "Help us make the world more secure",
-            description: "As more people join, our network grows stronger, pushing towards a future where online privacy is the norm. Let’s reshape the digital landscape together."
+            description: "Join a movement for privacy-focused photo sharing. Together, we can build a safer digital future."
         )
     ]
     
@@ -53,14 +53,14 @@ struct OnboardingView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 150, height: 150)
-                            .padding(.bottom, 20)
+                            .padding()
                         
                         // Title
                         Text(pages[index].title)
                             .font(.largeTitle)
                             .bold()
                             .multilineTextAlignment(.center)
-                            .padding(.bottom, 5)
+                            .padding()
                         
                         // Description
                         Text(pages[index].description)
