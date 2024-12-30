@@ -1,0 +1,15 @@
+{
+  "originHash" : "d54fdfe98a5f7ac95a096856b355d7069db3ffc6886ae09b5e514d261f04173b",
+  "pins" : [
+    {
+      "identity" : "zoomable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ryohey/Zoomable.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "525c0e1784825261b84d21c5cd5a159245a40ea6"
+      }
+    }
+  ],
+  "version" : 3
+}

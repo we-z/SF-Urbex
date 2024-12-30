@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		763BAF492D20FA0800D5605C /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 763BAF482D20FA0800D5605C /* Zoomable */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		763BAF042D17FA8100D5605C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				763BAF492D20FA0800D5605C /* Zoomable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = Hushpost;
 			packageProductDependencies = (
+				763BAF482D20FA0800D5605C /* Zoomable */,
 			);
 			productName = "SF Urbex";
 			productReference = 763BAEF32D17FA7F00D5605C /* Hushpost.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 763BAEEA2D17FA7F00D5605C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				763BAF472D20F9DD00D5605C /* XCRemoteSwiftPackageReference "Zoomable" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 763BAEF42D17FA7F00D5605C /* Products */;
 			projectDirPath = "";
@@ -564,6 +573,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		763BAF472D20F9DD00D5605C /* XCRemoteSwiftPackageReference "Zoomable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryohey/Zoomable.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		763BAF482D20FA0800D5605C /* Zoomable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 763BAF472D20F9DD00D5605C /* XCRemoteSwiftPackageReference "Zoomable" */;
+			productName = Zoomable;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 763BAEEB2D17FA7F00D5605C /* Project object */;
 }

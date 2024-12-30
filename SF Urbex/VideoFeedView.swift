@@ -133,10 +133,7 @@ struct FullImageView: View {
                                     }
                                 })
                                 .onEnded({ _ in
-                                    withAnimation(.interactiveSpring()) {
-                                        scale = 1.0
-                                        lastScale = 0.0
-                                    }
+                                    lastScale = scale
                                 })
                                 .simultaneously(
                                     with: DragGesture(minimumDistance: 0)
@@ -146,10 +143,7 @@ struct FullImageView: View {
                                             }
                                         })
                                         .onEnded({ _ in
-                                            withAnimation(.interactiveSpring()) {
-                                                offset = .zero
-                                                lastOffset = .zero
-                                            }
+                                            lastOffset = offset
                                         })
 
                                 )
