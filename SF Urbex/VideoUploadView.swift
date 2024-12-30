@@ -32,9 +32,12 @@ struct UploadMediaView: View {
                             } placeholder: {
                                 VStack {
                                     Image(systemName: "plus")
+//                                        .bold()
                                         .font(.largeTitle)
                                         .padding()
                                     Text("Select Photo")
+                                        .bold()
+                                        .font(.title2)
                                 }
                             }
                         )
