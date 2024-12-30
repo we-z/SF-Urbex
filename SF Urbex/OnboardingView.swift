@@ -24,9 +24,8 @@ struct OnboardingView: View {
                     ForEach(pages.indices, id: \.self) { index in
                         VStack {
                             Text(pages[index])
-                                .font(.title)
+                                .font(.largeTitle)
                                 .bold()
-                                .multilineTextAlignment(.center)
                                 .padding()
                         }
                         .tag(index)
@@ -45,12 +44,13 @@ struct OnboardingView: View {
                     }
                 }) {
                     Text(tabSelection == pages.count - 1 ? "Rate us" : "Next")
+                        .font(.title)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
                         .background(Color.secondary.opacity(0.3))
                         .cornerRadius(21)
-                        .padding(.horizontal)
+                        .padding()
                 }
             }
             .animation(.easeInOut, value: tabSelection)
