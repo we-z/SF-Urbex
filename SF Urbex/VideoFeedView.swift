@@ -62,6 +62,11 @@ struct MediaFeedView: View {
                 }
             }
         }
+        .onAppear {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundEffect = UIBlurEffect(style: .systemThickMaterial)
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
 }
 
