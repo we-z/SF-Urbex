@@ -28,16 +28,19 @@ struct UploadMediaView: View {
                             .opacity(0.3)
                             .overlay{
                                 VStack {
-                                    Image(systemName: "plus")
-                                        .font(.largeTitle)
-                                        .padding()
-                                    Text("Select Photo")
-                                        .bold()
-                                        .font(.title2)
+                                    if imageURL == nil {
+                                        Image(systemName: "plus")
+                                            .font(.largeTitle)
+                                            .padding()
+                                        Text("Select Photo")
+                                            .bold()
+                                            .font(.title2)
+                                    }
                                 }
                             }
                         if let imageURL = imageURL, let uiImage = loadUIImage(from: imageURL) {
-                            NavigationLink(destination: FullImageView(uiImage: uiImage)) {
+                            let isLandscape = uiImage.size.width < uiImage.size.height
+                            NavigationLink(destination: isLandscape ? FullImageView(uiImage: uiImage) : FullImageView(uiImage: flipUIImage(uiImage))) {
                                 Image(uiImage: uiImage)
                                     .resizable()
                                     .scaledToFit()
