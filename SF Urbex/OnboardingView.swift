@@ -22,17 +22,17 @@ struct OnboardingView: View {
     private let pages: [OnboardingPage] = [
         OnboardingPage(
             systemName: "eye.slash",
-            title: "Defeat Mass Surveillance",
+            title: "Defeat Social Media Surveillance",
             description: "Share photos privatly. Protect your memories from prying eyes and mass data collection."
         ),
         OnboardingPage(
             systemName: "lock.icloud.fill",
-            title: "Private Sharing Made Easy",
-            description: "Securely share your iCloud photos. Enjoy a seamless, privacy-first experience."
+            title: "Private Photo Sharing Made Easy",
+            description: "Securely share your uncompressed iCloud photos with a privacy-first experience."
         ),
         OnboardingPage(
             systemName: "person.3.fill",
-            title: "Private Communities",
+            title: "Private Community Building",
             description: "Create exclusive groups for trusted connections. Share and engage within a secure circle."
         ),
         OnboardingPage(
