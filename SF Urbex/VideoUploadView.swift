@@ -18,36 +18,41 @@ struct UploadMediaView: View {
             VStack {
                 Spacer()
                 Button {
-                    if (imageURL == nil) {
+                    if imageURL == nil {
                         showPicker = true
                     }
                 } label: {
-                    Rectangle()
-                        .foregroundColor(.secondary)
-                        .opacity(0.3)
-                        .aspectRatio(contentMode: .fit)
-                        .overlay(
-                            AsyncImage(url: imageURL) { image in
-                                image.resizable().scaledToFill()
-                            } placeholder: {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.secondary)
+                            .opacity(0.3)
+                            .overlay{
                                 VStack {
                                     Image(systemName: "plus")
-//                                        .bold()
                                         .font(.largeTitle)
-                                        .padding()
                                     Text("Select Photo")
                                         .bold()
                                         .font(.title2)
                                 }
                             }
-                        )
-                        .cornerRadius(30)
+                        if let imageURL = imageURL, let uiImage = loadUIImage(from: imageURL) {
+                            NavigationLink(destination: FullImageView(uiImage: uiImage)) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        }
+                            
+                    }
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(30)
+                    .padding()
                     
                 }
-//                .accentColor(.primary)
-                .padding()
+
                 Spacer()
-                if (imageURL != nil) {
+
+                if imageURL != nil {
                     HStack {
                         Spacer()
                         Button {
@@ -61,16 +66,15 @@ struct UploadMediaView: View {
                                     .padding()
                                 Spacer()
                             }
-                            .background(.red)
+                            .background(Color.red)
                             .cornerRadius(12)
                         }
-                        .accentColor(.primary)
                         Spacer()
                         Button {
                             isUploading = true
                             uploadMedia()
                         } label: {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 Text("Share")
                                     .bold()
@@ -78,14 +82,13 @@ struct UploadMediaView: View {
                                     .padding()
                                 Spacer()
                             }
-                            .background(.blue)
+                            .background(Color.blue)
                             .cornerRadius(12)
                         }
-                        .accentColor(.primary)
+                        Spacer()
                     }
                     .padding()
                 }
-                
 
                 if isUploading {
                     ProgressView(value: uploadProgress, total: 1.0)
@@ -99,13 +102,8 @@ struct UploadMediaView: View {
                     .onAppear {
                         isSelectingMedia = true
                     }
-//                    .accentColor(.primary)
             }
         }
-    }
-
-    private var shouldDisableUploadButton: Bool {
-        return (imageURL == nil)
     }
 
     private func uploadMedia() {
@@ -124,8 +122,15 @@ struct UploadMediaView: View {
             }
         }
     }
-}
 
+    private func loadUIImage(from url: URL) -> UIImage? {
+        if let data = try? Data(contentsOf: url),
+           let uiImage = UIImage(data: data) {
+            return uiImage
+        }
+        return nil
+    }
+}
 struct MediaPicker: UIViewControllerRepresentable {
     
     @Binding var imageURL: URL?

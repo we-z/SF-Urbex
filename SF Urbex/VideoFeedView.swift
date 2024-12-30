@@ -78,7 +78,6 @@ struct MediaCard: View {
                                 .scaledToFit()
                         }
                     } else {
-                        
                         ProgressView()
                     }
                 }
