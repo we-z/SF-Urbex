@@ -22,7 +22,7 @@ struct OnboardingView: View {
     private let pages: [OnboardingPage] = [
         OnboardingPage(
             systemName: "eye.slash",
-            title: "Defeating mass surveillance",
+            title: "Defeat Mass Surveillance",
             description: "Share photos privatly. Protect your memories from prying eyes and mass data collection."
         ),
         OnboardingPage(
@@ -38,7 +38,7 @@ struct OnboardingView: View {
         OnboardingPage(
             systemName: "globe",
             title: "Help us make the world more secure",
-            description: "Join a movement for privacy-focused photo sharing. Together, we can build a safer digital future."
+            description: "Join the movement for social privacy. Together, we can build a safer digital future."
         )
     ]
     
@@ -49,6 +49,15 @@ struct OnboardingView: View {
                 ForEach(pages.indices, id: \.self) { index in
                     VStack {
                         
+                        
+                        // Large SF Symbol icon
+                        Image(systemName: pages[index].systemName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                            .foregroundColor(.blue)
+                            .padding()
+                        
                         if index == pages.count - 1 {
                             HStack{
                                 ForEach(0..<5, id: \.self) { _ in
@@ -56,24 +65,20 @@ struct OnboardingView: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 45, height: 45) // Adjust the size as needed
+                                        .foregroundColor(.yellow)
                                         
                                 }
                             }
                             .padding()
                             
                         }
-                        // Large SF Symbol icon
-                        Image(systemName: pages[index].systemName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 150)
-                            .padding()
                         
                         // Title
                         Text(pages[index].title)
                             .font(.largeTitle)
                             .bold()
                             .multilineTextAlignment(.center)
+                            
                             .padding()
                         
                         // Description
@@ -97,12 +102,13 @@ struct OnboardingView: View {
                     print("Rate us tapped")
                 }
             }) {
-                Text(tabSelection == pages.count - 1 ? "Rate us" : "Next")
+                Text(tabSelection == pages.count - 1 ? "Rate Us" : "Next")
+//                    .bold()
                     .font(.title)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(.primary)
-                    .background(Color.secondary.opacity(0.3))
+                    .foregroundColor(.white)
+                    .background(Color.blue)
                     .cornerRadius(21)
                     .padding()
             }
