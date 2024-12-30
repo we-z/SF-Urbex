@@ -30,6 +30,7 @@ struct UploadMediaView: View {
                                 VStack {
                                     Image(systemName: "plus")
                                         .font(.largeTitle)
+                                        .padding()
                                     Text("Select Photo")
                                         .bold()
                                         .font(.title2)
@@ -121,6 +122,18 @@ struct UploadMediaView: View {
                 }
             }
         }
+    }
+    
+    private func flipUIImage(_ image: UIImage) -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: image.size.height, height: image.size.width))
+        if let context = UIGraphicsGetCurrentContext() {
+            context.translateBy(x: image.size.height / 2, y: image.size.width / 2)
+            context.rotate(by: .pi / 2)
+            image.draw(in: CGRect(x: -image.size.width / 2, y: -image.size.height / 2, width: image.size.width, height: image.size.height))
+        }
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return rotatedImage ?? image
     }
 
     private func loadUIImage(from url: URL) -> UIImage? {
