@@ -37,7 +37,7 @@ struct OnboardingView: View {
         ),
         OnboardingPage(
             systemName: "globe",
-            title: "Help us make the world more secure",
+            title: "Help us make the world more secure!",
             description: "Join the movement for social privacy. Together, we can build a safer digital future."
         )
     ]

@@ -41,8 +41,9 @@ struct UploadMediaView: View {
                         .cornerRadius(30)
                     
                 }
-                .accentColor(.primary)
+//                .accentColor(.primary)
                 .padding()
+                Spacer()
                 if (imageURL != nil) {
                     HStack {
                         Spacer()
@@ -52,50 +53,36 @@ struct UploadMediaView: View {
                             HStack {
                                 Spacer()
                                 Text("Cancel")
+                                    .bold()
+                                    .foregroundColor(.white)
                                     .padding()
                                 Spacer()
                             }
-                                .background(.secondary.opacity(0.3))
-                                .cornerRadius(12)
+                            .background(.red)
+                            .cornerRadius(12)
                         }
                         .accentColor(.primary)
                         Spacer()
                         Button {
-                            showPicker = true
+                            isUploading = true
+                            uploadMedia()
                         } label: {
-                            HStack {
+                            HStack{
                                 Spacer()
-                                Text("Change Photo")
+                                Text("Share")
+                                    .bold()
+                                    .foregroundColor(.white)
                                     .padding()
                                 Spacer()
                             }
-                                .background(.secondary.opacity(0.3))
-                                .cornerRadius(12)
+                            .background(.blue)
+                            .cornerRadius(12)
                         }
                         .accentColor(.primary)
-                        Spacer()
                     }
-                    .padding(.horizontal)
-                }
-                Spacer()
-
-                Button {
-                    isUploading = true
-                    uploadMedia()
-                } label: {
-                    HStack{
-                        Spacer()
-                        Text("Share")
-                            .font(.title2)
-                            .padding()
-                        Spacer()
-                    }
-                    .background(.secondary.opacity(0.3))
-                    .cornerRadius(12)
                     .padding()
                 }
-                .accentColor(.primary)
-                .disabled(shouldDisableUploadButton)
+                
 
                 if isUploading {
                     ProgressView(value: uploadProgress, total: 1.0)
@@ -109,7 +96,7 @@ struct UploadMediaView: View {
                     .onAppear {
                         isSelectingMedia = true
                     }
-                    .accentColor(.primary)
+//                    .accentColor(.primary)
             }
         }
     }
@@ -244,9 +231,11 @@ struct ImageConfirmationView: View {
                     dismiss()
                 } label: {
                     Text("Cancel")
+                        .bold()
+                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.secondary.opacity(0.3))
+                        .background(Color.red)
                         .cornerRadius(9)
                 }
                 .accentColor(.primary)
@@ -255,16 +244,21 @@ struct ImageConfirmationView: View {
                     onConfirm()
                 } label: {
                     Text("Confirm")
+                        .bold()
+                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.secondary.opacity(0.3))
+                        .background(Color.blue)
                         .cornerRadius(9)
                 }
                 .accentColor(.primary)
             }
-            .padding(.horizontal)
             .padding()
         }
         
     }
+}
+
+#Preview {
+    ContentView()
 }

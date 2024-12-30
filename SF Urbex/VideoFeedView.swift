@@ -41,7 +41,7 @@ struct MediaFeedView: View {
                 cloudKitManager.fetchAllMedia()
             }
         }
-        .accentColor(.primary)
+//        .accentColor(.primary)
     }
 }
 
