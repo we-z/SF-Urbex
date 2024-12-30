@@ -28,7 +28,7 @@ struct OnboardingView: View {
         OnboardingPage(
             systemName: "lock.icloud.fill",
             title: "Private Photo Sharing Made Easy",
-            description: "Securely share your uncompressed iCloud photos with a privacy-first experience."
+            description: "Securely share your iCloud photos in full resolution with a privacy-first experience."
         ),
         OnboardingPage(
             systemName: "person.3.fill",
