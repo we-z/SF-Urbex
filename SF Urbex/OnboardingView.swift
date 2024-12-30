@@ -114,6 +114,7 @@ struct OnboardingView: View {
                     .padding()
             }
         }
+        .background(Color.primary.ignoresSafeArea().colorInvert())
         .animation(.spring, value: tabSelection)
         .opacity(tabSelection == pages.count ? 0 : 1)
     }
