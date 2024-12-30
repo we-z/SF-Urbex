@@ -237,9 +237,6 @@ struct ImageConfirmationView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack(spacing: 20) {
-            Text("Confirm Your Image")
-                .font(.headline)
-                .padding()
 
             Spacer()
             
