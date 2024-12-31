@@ -174,6 +174,16 @@ struct FullImageView: View {
                 }
             Spacer()
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    print("Pressed")
+                } label: {
+                    Image(systemName: "heart")
+                        .font(.title3)
+                }
+            }
+        }
         
     }
     
