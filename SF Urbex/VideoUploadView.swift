@@ -25,8 +25,8 @@ struct UploadMediaView: View {
                 }
                 Spacer()
                 Picker("", selection: $visibility) {
-                    Text("Private").tag(0)
-                    Text("Public").tag(1)
+                    Text("Public").tag(0)
+                    Text("Private").tag(1)
                 }
                 .frame(width: 210)
                 .pickerStyle(SegmentedPickerStyle())
