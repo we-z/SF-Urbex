@@ -18,6 +18,11 @@ struct UploadMediaView: View {
     var body: some View {
         NavigationView {
             VStack {
+                if isUploading {
+                    ProgressView(value: uploadProgress, total: 1.0)
+                        .progressViewStyle(LinearProgressViewStyle())
+                        .padding()
+                }
                 Spacer()
                 Picker("", selection: $visibility) {
                     Text("Private").tag(0)
@@ -99,13 +104,7 @@ struct UploadMediaView: View {
                     Spacer()
                 }
                 .padding()
-                .opacity(imageURL == nil ? 0 : 1)
-
-                if isUploading {
-                    ProgressView(value: uploadProgress, total: 1.0)
-                        .progressViewStyle(LinearProgressViewStyle())
-                        .padding()
-                }
+                .disabled(imageURL == nil)
             }
             .navigationTitle("Share Photo")
             .sheet(isPresented: $showPicker) {
