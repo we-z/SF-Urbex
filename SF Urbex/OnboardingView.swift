@@ -17,6 +17,7 @@ struct OnboardingView: View {
     }
     
     @State private var tabSelection: Int = 0
+    @State private var showOnboarding = true
     
     // MARK: - Updated pages with SF Symbol icons, titles, and descriptions
     private let pages: [OnboardingPage] = [
@@ -100,7 +101,7 @@ struct OnboardingView: View {
                 } else {
                     // Implement your "Rate us" action here
                     print("Rate us tapped")
-                    tabSelection += 1
+                    showOnboarding = false
                 }
             }) {
                 Text(tabSelection == pages.count - 1 ? "Rate Us" : "Next")
@@ -116,7 +117,6 @@ struct OnboardingView: View {
         }
         .background(Color.primary.ignoresSafeArea().colorInvert())
         .animation(.spring, value: tabSelection)
-        .opacity(tabSelection == pages.count ? 0 : 1)
     }
 }
 
