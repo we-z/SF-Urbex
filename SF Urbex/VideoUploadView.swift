@@ -104,6 +104,7 @@ struct UploadMediaView: View {
                     Spacer()
                 }
                 .padding()
+                .opacity(imageURL == nil ? 0.5 : 1)
                 .disabled(imageURL == nil)
             }
             .navigationTitle("Share Photo")
