@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct OnboardingView: View {
     
@@ -17,7 +18,7 @@ struct OnboardingView: View {
     }
     
     @State private var tabSelection: Int = 0
-    @State private var showOnboarding = true
+    @State var done: Bool = false
     
     // MARK: - Updated pages with SF Symbol icons, titles, and descriptions
     private let pages: [OnboardingPage] = [
@@ -100,8 +101,14 @@ struct OnboardingView: View {
                     tabSelection += 1
                 } else {
                     // Implement your "Rate us" action here
-                    print("Rate us tapped")
-                    showOnboarding = false
+                    if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                        DispatchQueue.main.async {
+                            SKStoreReviewController.requestReview(in: scene)
+                        }
+                    }
+                    withAnimation(.easeInOut) {
+                        done = true
+                    }
                 }
             }) {
                 Text(tabSelection == pages.count - 1 ? "Rate Us" : "Next")
@@ -117,6 +124,7 @@ struct OnboardingView: View {
         }
         .background(Color.primary.ignoresSafeArea().colorInvert())
         .animation(.spring, value: tabSelection)
+        .offset(x: done ? -500 : 0)
     }
 }
 
