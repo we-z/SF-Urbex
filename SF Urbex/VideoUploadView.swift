@@ -12,6 +12,8 @@ struct UploadMediaView: View {
     @State private var isSelectingMedia = false
     @State private var uploadProgress: Double = 0.0
     @State private var isUploading = false
+    
+    @State private var visibility = 0
 
     var body: some View {
         NavigationView {
@@ -53,7 +55,12 @@ struct UploadMediaView: View {
                     .padding()
                     
                 }
-
+                Picker("", selection: $visibility) {
+                    Text("Private").tag(0)
+                    Text("Public").tag(1)
+                }
+                .frame(width: 210)
+                .pickerStyle(SegmentedPickerStyle())
                 Spacer()
 
                 if imageURL != nil {
@@ -281,5 +288,5 @@ struct ImageConfirmationView: View {
 }
 
 #Preview {
-    ContentView()
+    UploadMediaView(selectedTab: .constant(0))
 }

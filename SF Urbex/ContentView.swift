@@ -43,8 +43,8 @@ struct ContentView: View {
                 // Use this appearance when scrolled all the way up:
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
-            WelcomeView()
             OnboardingView()
+            WelcomeView()
         }
     }
 }

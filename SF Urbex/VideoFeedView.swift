@@ -44,12 +44,11 @@ struct MediaFeedView: View {
                         }
                     }
                     ToolbarItem(placement: .principal) {
-                        Picker("Color", selection: $feed) {
+                        Picker("", selection: $feed) {
                             Text("Everyone").tag(0)
                             Text("Following").tag(1)
                         }
                         .frame(width: 180)
-                        
                         .pickerStyle(SegmentedPickerStyle())
                         
                     }
