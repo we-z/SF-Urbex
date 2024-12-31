@@ -37,7 +37,7 @@ struct WelcomeView: View {
                     .padding()
                 
                 // Description
-                Text("Join the social-privacy network and start sharing photos privately fully E2E encrypted!")
+                Text("Join the social-privacy network. Explore and share photos privately fully E2E encrypted!")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()
