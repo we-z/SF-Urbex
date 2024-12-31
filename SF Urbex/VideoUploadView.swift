@@ -78,6 +78,7 @@ struct UploadMediaView: View {
                             Spacer()
                             Text("Cancel")
                                 .bold()
+                                .font(.title2)
                                 .foregroundColor(.white)
                                 .padding()
                             Spacer()
@@ -94,6 +95,7 @@ struct UploadMediaView: View {
                             Spacer()
                             Text("Share")
                                 .bold()
+                                .font(.title2)
                                 .foregroundColor(.white)
                                 .padding()
                             Spacer()
@@ -262,6 +264,7 @@ struct ImageConfirmationView: View {
                 } label: {
                     Text("Cancel")
                         .bold()
+                        .font(.title2)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -275,6 +278,7 @@ struct ImageConfirmationView: View {
                 } label: {
                     Text("Confirm")
                         .bold()
+                        .font(.title2)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
