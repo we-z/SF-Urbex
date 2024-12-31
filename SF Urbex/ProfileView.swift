@@ -20,6 +20,7 @@ struct ProfileView: View {
                         Circle()
                             .frame(width: 90, height: 90)
                             .foregroundColor(.secondary.opacity(0.3))
+                            .padding()
                         Text("Anon.Urbexer")
                             .font(.largeTitle)
                             .bold()
