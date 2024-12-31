@@ -19,6 +19,12 @@ struct UploadMediaView: View {
         NavigationView {
             VStack {
                 Spacer()
+                Picker("", selection: $visibility) {
+                    Text("Private").tag(0)
+                    Text("Public").tag(1)
+                }
+                .frame(width: 210)
+                .pickerStyle(SegmentedPickerStyle())
                 Button {
                     if imageURL == nil {
                         showPicker = true
@@ -55,51 +61,45 @@ struct UploadMediaView: View {
                     .padding()
                     
                 }
-                Picker("", selection: $visibility) {
-                    Text("Private").tag(0)
-                    Text("Public").tag(1)
-                }
-                .frame(width: 210)
-                .pickerStyle(SegmentedPickerStyle())
+                
                 Spacer()
 
-                if imageURL != nil {
-                    HStack {
-                        Spacer()
-                        Button {
-                            imageURL = nil
-                        } label: {
-                            HStack {
-                                Spacer()
-                                Text("Cancel")
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .padding()
-                                Spacer()
-                            }
-                            .background(Color.red)
-                            .cornerRadius(12)
+                HStack {
+                    Spacer()
+                    Button {
+                        imageURL = nil
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Cancel")
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding()
+                            Spacer()
                         }
-                        Spacer()
-                        Button {
-                            isUploading = true
-                            uploadMedia()
-                        } label: {
-                            HStack {
-                                Spacer()
-                                Text("Share")
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .padding()
-                                Spacer()
-                            }
-                            .background(Color.blue)
-                            .cornerRadius(12)
-                        }
-                        Spacer()
+                        .background(Color.red)
+                        .cornerRadius(12)
                     }
-                    .padding()
+                    Spacer()
+                    Button {
+                        isUploading = true
+                        uploadMedia()
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Share")
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding()
+                            Spacer()
+                        }
+                        .background(Color.blue)
+                        .cornerRadius(12)
+                    }
+                    Spacer()
                 }
+                .padding()
+                .opacity(imageURL == nil ? 0 : 1)
 
                 if isUploading {
                     ProgressView(value: uploadProgress, total: 1.0)
