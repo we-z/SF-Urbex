@@ -17,104 +17,106 @@ struct UploadMediaView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                if isUploading {
-                    ProgressView(value: uploadProgress, total: 1.0)
-                        .progressViewStyle(LinearProgressViewStyle())
-                        .padding()
-                }
-                Spacer()
-                Picker("", selection: $visibility) {
-                    Text("Public").tag(0)
-                    Text("Private").tag(1)
-                }
-                .frame(width: 210)
-                .pickerStyle(SegmentedPickerStyle())
-                Button {
-                    if imageURL == nil {
-                        showPicker = true
+            ScrollView {
+                VStack {
+                    if isUploading {
+                        ProgressView(value: uploadProgress, total: 1.0)
+                            .progressViewStyle(LinearProgressViewStyle())
+                            .padding()
                     }
-                } label: {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.secondary)
-                            .opacity(0.3)
-                            .overlay{
-                                VStack {
-                                    if imageURL == nil {
-                                        Image(systemName: "plus")
-                                            .font(.largeTitle)
-                                            .padding()
-                                        Text("Select Photo")
-                                            .bold()
-                                            .font(.title2)
+                    Spacer()
+                    Picker("", selection: $visibility) {
+                        Text("Public").tag(0)
+                        Text("Private").tag(1)
+                    }
+                    .frame(width: 210)
+                    .pickerStyle(SegmentedPickerStyle())
+                    Button {
+                        if imageURL == nil {
+                            showPicker = true
+                        }
+                    } label: {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.secondary)
+                                .opacity(0.3)
+                                .overlay{
+                                    VStack {
+                                        if imageURL == nil {
+                                            Image(systemName: "plus")
+                                                .font(.largeTitle)
+                                                .padding()
+                                            Text("Select Photo")
+                                                .bold()
+                                                .font(.title2)
+                                        }
                                     }
                                 }
+                            if let imageURL = imageURL, let uiImage = loadUIImage(from: imageURL) {
+                                let isLandscape = uiImage.size.width < uiImage.size.height
+                                NavigationLink(destination: isLandscape ? FullImageView(uiImage: uiImage) : FullImageView(uiImage: flipUIImage(uiImage))) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                }
                             }
-                        if let imageURL = imageURL, let uiImage = loadUIImage(from: imageURL) {
-                            let isLandscape = uiImage.size.width < uiImage.size.height
-                            NavigationLink(destination: isLandscape ? FullImageView(uiImage: uiImage) : FullImageView(uiImage: flipUIImage(uiImage))) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFit()
-                            }
-                        }
                             
+                        }
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(30)
+                        .padding()
+                        
                     }
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(30)
-                    .padding()
                     
-                }
-                
-                Spacer()
-
-                HStack {
                     Spacer()
-                    Button {
-                        imageURL = nil
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Cancel")
-                                .bold()
-                                .font(.title2)
-                                .foregroundColor(.white)
-                                .padding()
-                            Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        Button {
+                            imageURL = nil
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Cancel")
+                                    .bold()
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                Spacer()
+                            }
+                            .background(Color.red)
+                            .cornerRadius(12)
                         }
-                        .background(Color.red)
-                        .cornerRadius(12)
-                    }
-                    Spacer()
-                    Button {
-                        isUploading = true
-                        uploadMedia()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Share")
-                                .bold()
-                                .font(.title2)
-                                .foregroundColor(.white)
-                                .padding()
-                            Spacer()
+                        Spacer()
+                        Button {
+                            isUploading = true
+                            uploadMedia()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Share")
+                                    .bold()
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                Spacer()
+                            }
+                            .background(Color.blue)
+                            .cornerRadius(12)
                         }
-                        .background(Color.blue)
-                        .cornerRadius(12)
+                        Spacer()
                     }
-                    Spacer()
+                    .padding()
+                    .opacity(imageURL == nil ? 0.5 : 1)
+                    .disabled(imageURL == nil)
                 }
-                .padding()
-                .opacity(imageURL == nil ? 0.5 : 1)
-                .disabled(imageURL == nil)
-            }
-            .navigationTitle("Share Photo")
-            .sheet(isPresented: $showPicker) {
-                MediaPicker(imageURL: $imageURL)
-                    .onAppear {
-                        isSelectingMedia = true
-                    }
+                .navigationTitle("Share Photo")
+                .sheet(isPresented: $showPicker) {
+                    MediaPicker(imageURL: $imageURL)
+                        .onAppear {
+                            isSelectingMedia = true
+                        }
+                }
             }
         }
     }
@@ -126,13 +128,11 @@ struct UploadMediaView: View {
                     uploadProgress = progress
                 }
             } completion: {
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                     isUploading = false
                     uploadProgress = 0.0
                     imageURL = nil
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                        selectedTab = 0 // Switch to MediaFeedView tab
-                    }
+                    selectedTab = 0 // Switch to MediaFeedView tab
                 }
             }
         }
