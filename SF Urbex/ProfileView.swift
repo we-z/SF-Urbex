@@ -35,6 +35,33 @@ struct ProfileView: View {
                 }
                 .scrollIndicators(.hidden)
                 .navigationTitle("Profile")
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            print("Pressed")
+                        } label: {
+                            Text("Edit")
+                                .font(.title2)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            print("Pressed")
+                        } label: {
+                            Image(systemName: "gear")
+                                .font(.title3)
+                        }
+                    }
+                    ToolbarItem(placement: .principal) {
+                        Picker("", selection: $feed) {
+                            Text("Public").tag(0)
+                            Text("Private").tag(1)
+                        }
+                        .frame(width: 180)
+                        .pickerStyle(SegmentedPickerStyle())
+                        
+                    }
+                }
                 .refreshable {
                     cloudKitManager.fetchAllMedia()
                 }
