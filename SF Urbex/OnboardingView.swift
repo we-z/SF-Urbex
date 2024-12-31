@@ -105,7 +105,7 @@ struct OnboardingView: View {
                 }
             }) {
                 Text(tabSelection == pages.count - 1 ? "Rate Us" : "Next")
-//                    .bold()
+                    .bold()
                     .font(.title)
                     .padding()
                     .frame(maxWidth: .infinity)

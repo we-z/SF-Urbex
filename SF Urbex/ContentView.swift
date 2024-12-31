@@ -44,6 +44,7 @@ struct ContentView: View {
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
             OnboardingView()
+            WelcomeView()
         }
     }
 }

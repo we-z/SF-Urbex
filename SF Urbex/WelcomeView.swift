@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @State var done: Bool = false
     var body: some View {
         VStack {
             Spacer()
@@ -37,7 +38,7 @@ struct WelcomeView: View {
                     .padding()
                 
                 // Description
-                Text("Join the social-privacy network. Explore and share photos privately fully E2E encrypted!")
+                Text("Join the private photo sharing network. Explore and share photos privately fully E2E encrypted!")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -45,7 +46,9 @@ struct WelcomeView: View {
             Spacer()
             // MARK: - Next / Rate Us Button
             Button{
-                
+                withAnimation(.easeInOut) {
+                    done = true
+                }
             } label: {
                 Text("Continue")
                     .bold()
@@ -59,6 +62,7 @@ struct WelcomeView: View {
             }
         }
         .background(Color.blue.ignoresSafeArea())
+        .offset(x: done ? -500 : 0)
     }
 }
 
