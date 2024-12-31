@@ -21,12 +21,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
-struct ProfileView: View {
-    var body: some View {
-        NavigationView {
-            Text("Profile stuff")
-            .navigationTitle("Profile")
-        }
-    }
-}
