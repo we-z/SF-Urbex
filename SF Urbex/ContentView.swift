@@ -12,8 +12,8 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             AppView()
-            OnboardingView()
             WelcomeView()
+            OnboardingView()
         }
     }
 }

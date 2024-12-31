@@ -128,7 +128,9 @@ struct UploadMediaView: View {
                     isUploading = false
                     uploadProgress = 0.0
                     imageURL = nil
-                    selectedTab = 0 // Switch to MediaFeedView tab
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                        selectedTab = 0 // Switch to MediaFeedView tab
+                    }
                 }
             }
         }
