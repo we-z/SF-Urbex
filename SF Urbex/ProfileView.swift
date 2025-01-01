@@ -24,6 +24,9 @@ struct ProfileView: View {
                         Text("Anon.Urbexer")
                             .font(.largeTitle)
                             .bold()
+                            .padding()
+                        Text("Exploring the urban world. Capturing the moments that matter most.")
+                            .multilineTextAlignment(.center)
                     }
                     .padding()
                     .padding()
