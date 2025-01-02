@@ -78,8 +78,8 @@ struct PaywallView: View {
                                 Image(systemName: icon)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 27, height: 27)
-                                    .foregroundColor(.gray)
+                                    .frame(width: 24, height: 24)
+                                    .foregroundColor(.black)
                                     .padding(.trailing, 6)
                             }
                             .padding()
@@ -96,7 +96,7 @@ struct PaywallView: View {
             .scrollIndicators(.hidden)
             VStack {
                 Divider()
-                    .shadow(color: .black, radius: 1, x: 0, y: 0)
+                    .shadow(color: .black, radius: 0.3)
                 Text("1 month free trial, then $19.99 / month")
                     .font(.headline)
                     .foregroundColor(.black)
@@ -120,7 +120,6 @@ struct PaywallView: View {
                     .font(.headline)
                     .padding(6)
                     .foregroundColor(.gray)
-                    .padding(.bottom)
             }
             .background(.white)
             
