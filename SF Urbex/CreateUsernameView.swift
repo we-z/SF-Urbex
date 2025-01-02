@@ -32,6 +32,7 @@ struct CreateUsernameView: View {
                 .padding()
             Button {
                 if !username.isEmpty {
+                    UIApplication.shared.endEditing()
                     withAnimation(.easeInOut) {
                         done = true
                     }

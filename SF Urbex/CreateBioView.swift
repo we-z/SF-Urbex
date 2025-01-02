@@ -31,6 +31,7 @@ struct CreateBioView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding()
             Button {
+                UIApplication.shared.endEditing()
                 withAnimation(.easeInOut) {
                     done = true
                 }
