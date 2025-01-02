@@ -19,9 +19,7 @@ struct SetProfilePicView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             Button {
-                withAnimation(.easeInOut) {
-                    done = true
-                }
+
             } label: {
                 ZStack{
                     Circle()
@@ -39,15 +37,21 @@ struct SetProfilePicView: View {
                     }
                 }
             }
-            Text("Next")
-                .bold()
-                .font(.title3)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
-                .background(Color.blue)
-                .cornerRadius(15)
-                .padding()
+            Button {
+                withAnimation(.easeInOut) {
+                    done = true
+                }
+            } label: {
+                Text("Next")
+                    .bold()
+                    .font(.title3)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+                    .padding()
+            }
             Spacer()
         }
         .background(Color.primary.colorInvert().ignoresSafeArea())
