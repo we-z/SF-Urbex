@@ -32,7 +32,7 @@ struct SetProfilePicView: View {
                     }
                 }
             }
-            NavigationLink(destination: ProfilePreviewView()) {
+            NavigationLink(destination: FirstPhotoView()) {
                 Text("Next")
                     .bold()
                     .font(.title3)
