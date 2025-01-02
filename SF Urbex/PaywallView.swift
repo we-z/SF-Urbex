@@ -17,13 +17,14 @@ struct PaywallView: View {
         "Private Group Sharing",
         "Anonymous Messaging",
         "Self-Destructing Photos",
-        "Exclusive Membership",
         "Granular Privacy Controls",
-        "Password-Protected Albums",
+        "Password-Protection",
+        "FaceID-Protection",
         "Open Source Code",
         "Verified Secure Builds",
         "No Screenshots",
-        "No Screenrecordings"
+        "No Screenrecordings",
+        "Exclusive Membership",
     ]
 
     var body: some View {
@@ -90,7 +91,7 @@ struct PaywallView: View {
             VStack {
                 Divider()
                     .shadow(color: .black, radius: 1, x: 0, y: 0)
-                Text("1 month free trial, then $14.99 / month")
+                Text("1 month free trial, then $19.99 / month")
                     .font(.headline)
                     .foregroundColor(.black)
                     .padding(.top, 6)
