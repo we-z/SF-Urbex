@@ -17,7 +17,7 @@ struct WarningView: View {
                     Spacer()
                     ZStack {
                         Circle()
-                            .frame(width: 150, height: 150)
+                            .frame(width: 120, height: 120)
                             .foregroundColor(.white)
                         Image(systemName: "hand.raised.app.fill")
                             .resizable()

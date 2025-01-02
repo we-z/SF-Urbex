@@ -13,10 +13,16 @@ struct PaywallView: View {
     // Features of the private photo-sharing app
     let features = [
         "End-to-End Encryption",
-        "Private Photo Sharing",
+        "No Ads, No Tracking",
+        "Private Group Sharing",
+        "Anonymous Messaging",
+        "Self-Destructing Photos",
         "Exclusive Membership",
-        "Ad-Free Experience",
-        "Secure Data Storage"
+        "Granular Privacy Controls",
+        "Password-Protected Albums",
+        "Open Source Code",
+        "Verified Secure Builds",
+        "Invite-Only Access"
     ]
 
     var body: some View {
@@ -35,10 +41,11 @@ struct PaywallView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 36, height: 36)
-                            .offset(y: 12)
+                            .offset(x: 0, y: 12)
                             .foregroundColor(.white)
                             .padding()
                     }
+                    .fixedSize()
                     
                     // Title
                     Text("A small price to pay for your privacy")
@@ -83,10 +90,9 @@ struct PaywallView: View {
                 Divider()
                     .shadow(color: .black, radius: 1, x: 0, y: 0)
                 Text("1 month free trial, then $14.99 / month")
-                    .bold()
-                    .font(.title3)
-                    .padding()
+                    .font(.headline)
                     .foregroundColor(.black)
+                    .padding(.top, 6)
                 Button {
                     withAnimation(.easeInOut) {
                         done = true
@@ -106,6 +112,7 @@ struct PaywallView: View {
                     .font(.headline)
                     .padding(6)
                     .foregroundColor(.gray)
+                    .padding(.bottom)
             }
             .background(.white)
             
