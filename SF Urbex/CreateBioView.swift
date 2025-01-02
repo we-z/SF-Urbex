@@ -11,11 +11,11 @@ struct CreateBioView: View {
     @State var username: String = ""
     var body: some View {
         VStack{
-            Text("Create a Bio")
+            Text("Write a Bio")
                 .bold()
                 .font(.largeTitle)
                 .padding()
-            Text("Tell us about yourself. write as much as you would like. You can always change it later.")
+            Text("Tell us about yourself and write as much as you would like. You can always change it later or press Next to skip.")
                 .multilineTextAlignment(.center)
                 .padding()
             TextField("Bio", text: $username, axis: .vertical)
