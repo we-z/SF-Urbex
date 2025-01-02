@@ -34,6 +34,7 @@ struct ProfilePreviewView: View {
                     }
                 }
             }
+            .scrollIndicators(.hidden)
             .refreshable {
                 cloudKitManager.fetchAllMedia()
             }
