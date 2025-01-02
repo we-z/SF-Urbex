@@ -125,7 +125,7 @@ struct PaywallView: View {
             
         }
         .background(Color.blue.ignoresSafeArea())
-        .offset(x: done ? -500 : 0)
+        .offset(y: done ? 1000 : 0)
     }
 }
 
