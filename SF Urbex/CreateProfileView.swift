@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateProfileView: View {
+    @State var username: String = ""
     var body: some View {
         VStack{
             Text("Create username")
@@ -17,7 +18,7 @@ struct CreateProfileView: View {
             Text("Pick a username for your new account. You can always change it later.")
                 .multilineTextAlignment(.center)
                 .padding()
-            TextField("Username", text: .constant(""))
+            TextField("Username", text: $username)
                 .textFieldStyle(.plain)
                 .padding()
                 .font(.title3)
@@ -36,6 +37,7 @@ struct CreateProfileView: View {
                 .foregroundColor(.white)
                 .background(Color.blue)
                 .cornerRadius(15)
+                .opacity(username.isEmpty ? 0.5 : 1)
                 .padding()
             Spacer()
         }
