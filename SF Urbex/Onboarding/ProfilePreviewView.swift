@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfilePreviewView: View {
     @StateObject private var cloudKitManager = CloudKitManager()
+    @State var done = false
     var body: some View {
         VStack{
             ScrollView {
@@ -39,18 +40,22 @@ struct ProfilePreviewView: View {
             .onAppear {
                 cloudKitManager.fetchAllMedia()
             }
-            Spacer()
-            Text("Continue")
-                .bold()
-                .font(.title3)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
-                .background(Color.blue)
-                .cornerRadius(15)
-                .padding()
+            Button {
+                done = true
+            } label: {
+
+                Text("Continue")
+                    .bold()
+                    .font(.title3)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+                    .padding()
+            }
         }
-        .navigationTitle("Profile")
+        .navigationTitle("Profile Preview")
         
     }
 }
