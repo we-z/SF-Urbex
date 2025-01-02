@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateProfileView: View {
     var body: some View {
         ZStack {
+            SetProfilePicView()
             CreateBioView()
             CreateUsernameView()
         }
