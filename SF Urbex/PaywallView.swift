@@ -10,21 +10,21 @@ import SwiftUI
 struct PaywallView: View {
     @State var done: Bool = false
 
-    // Features of the private photo-sharing app
-    let features = [
-        "End-to-End Encryption",
-        "No Ads, No Tracking",
-        "Private Group Sharing",
-        "Anonymous Messaging",
-        "Self-Destructing Photos",
-        "Granular Privacy Controls",
-        "Password-Protection",
-        "FaceID-Protection",
-        "Open Source Code",
-        "Verified Secure Builds",
-        "No Screenshots",
-        "No Screenrecordings",
-        "Exclusive Membership",
+    // Features of the private photo-sharing app and their respective icons
+    let featuresWithIcons = [
+        ("End-to-End Encryption", "lock.fill"),
+        ("No Ads, No Tracking", "eye.slash.fill"),
+        ("Private Group Sharing", "person.2.fill"),
+        ("Anonymous Messaging", "message"),
+        ("Self-Destructing Photos", "flame.fill"),
+        ("Granular Privacy Controls", "slider.horizontal.3"),
+        ("Password-Protection", "key.fill"),
+        ("FaceID-Protection", "faceid"),
+        ("Open Source Code", "chevron.left.slash.chevron.right"),
+        ("Verified Secure Builds", "checkmark.shield.fill"),
+        ("No Screenshots", "camera.aperture"),
+        ("No Screenrecordings", "video.slash.fill"),
+        ("Exclusive Membership", "crown.fill"),
     ]
 
     var body: some View {
@@ -57,14 +57,14 @@ struct PaywallView: View {
                         .padding()
                     
                     // Description
-                    Text("Join the private photo sharing network. Explore and share photos privately fully E2E encrypted!")
+                    Text("Secure your most valuable memories. Explore and share photos privately.")
                         .font(.body)
                         .multilineTextAlignment(.center)
                         .padding()
                     
                     // Features
                     VStack {
-                        ForEach(features, id: \.self) { feature in
+                        ForEach(featuresWithIcons, id: \.0) { feature, icon in
                             HStack {
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
@@ -75,6 +75,12 @@ struct PaywallView: View {
                                     .bold()
                                     .foregroundColor(.black)
                                 Spacer()
+                                Image(systemName: icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 27, height: 27)
+                                    .foregroundColor(.gray)
+                                    .padding(.trailing, 6)
                             }
                             .padding()
                             Divider()
