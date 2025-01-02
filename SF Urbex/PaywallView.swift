@@ -44,33 +44,77 @@ struct PaywallView: View {
                         .padding()
                     VStack{
                         HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
                             Text("Features")
                                 .bold()
                                 .foregroundColor(.black)
-                                .padding()
                             Spacer()
                         }
+                        .padding()
                         HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
                             Text("Features")
                                 .bold()
                                 .foregroundColor(.black)
-                                .padding()
                             Spacer()
                         }
+                        .padding()
                         HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
                             Text("Features")
                                 .bold()
                                 .foregroundColor(.black)
-                                .padding()
                             Spacer()
                         }
+                        .padding()
                         HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
                             Text("Features")
                                 .bold()
                                 .foregroundColor(.black)
-                                .padding()
                             Spacer()
                         }
+                        .padding()
+                        HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                            Spacer()
+                        }
+                        .padding()
+                        HStack{
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                            Spacer()
+                        }
+                        .padding()
                     }
                     .frame(maxWidth: .infinity)
                     .background(.white)
@@ -79,7 +123,7 @@ struct PaywallView: View {
                 }
             }
             VStack {
-                Text("1 month free trial, then 14.99 / month")
+                Text("1 month free trial, then $14.99 / month")
                     .bold()
                     .font(.title3)
                     .padding()
