@@ -50,7 +50,7 @@ struct PaywallView: View {
                     .fixedSize()
                     
                     // Title
-                    Text("A small price to pay for your privacy")
+                    Text("Privacy is priceless")
                         .font(.largeTitle)
                         .bold()
                         .multilineTextAlignment(.center)
