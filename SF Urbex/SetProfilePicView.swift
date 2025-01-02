@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SetProfilePicView: View {
+    @State var done: Bool = false
     var body: some View {
         VStack{
             Text("Set Profile Picture")
@@ -18,7 +19,9 @@ struct SetProfilePicView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             Button {
-                
+                withAnimation(.easeInOut) {
+                    done = true
+                }
             } label: {
                 ZStack{
                     Circle()
@@ -48,6 +51,7 @@ struct SetProfilePicView: View {
             Spacer()
         }
         .background(Color.primary.colorInvert().ignoresSafeArea())
+        .offset(x: done ? -500 : 0)
     }
 }
 

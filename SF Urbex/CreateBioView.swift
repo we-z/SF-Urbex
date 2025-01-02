@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateBioView: View {
     @State var bio: String = ""
+    @State var done: Bool = false
     var body: some View {
         VStack{
             Text("Write a Bio")
@@ -29,18 +30,25 @@ struct CreateBioView: View {
                 .accentColor(.primary)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-            Text("Next")
-                .bold()
-                .font(.title3)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
-                .background(Color.blue)
-                .cornerRadius(15)
-                .padding()
+            Button {
+                withAnimation(.easeInOut) {
+                    done = true
+                }
+            } label: {
+                Text("Next")
+                    .bold()
+                    .font(.title3)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+                    .padding()
+            }
             Spacer()
         }
         .background(Color.primary.colorInvert().ignoresSafeArea())
+        .offset(x: done ? -500 : 0)
     }
 }
 
