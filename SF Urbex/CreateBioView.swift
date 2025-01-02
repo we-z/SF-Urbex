@@ -10,7 +10,6 @@ import SwiftUI
 struct CreateBioView: View {
     @State var bio: String = ""
     var body: some View {
-        NavigationView {
             VStack{
                 Text("Write as much as you would like. You can always change it later or press Next to skip.")
                     .multilineTextAlignment(.center)
@@ -41,7 +40,6 @@ struct CreateBioView: View {
             }
             .navigationTitle("Write a Bio")
             .background(Color.primary.colorInvert().ignoresSafeArea())
-        }
     }
 }
 
