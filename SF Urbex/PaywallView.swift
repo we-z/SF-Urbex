@@ -22,7 +22,8 @@ struct PaywallView: View {
         "Password-Protected Albums",
         "Open Source Code",
         "Verified Secure Builds",
-        "Invite-Only Access"
+        "No Screenshots",
+        "No Screenrecordings"
     ]
 
     var body: some View {
