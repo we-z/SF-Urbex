@@ -36,10 +36,7 @@ struct AppView: View {
         .onAppear {
             let appearance = UITabBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemThickMaterial)
-            
-            // Use this appearance when scrolling behind the TabView:
             UITabBar.appearance().standardAppearance = appearance
-            // Use this appearance when scrolled all the way up:
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
     }
