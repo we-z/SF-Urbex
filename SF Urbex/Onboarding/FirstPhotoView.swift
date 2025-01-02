@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FirstPhotoView: View {
     @ObservedObject var cloudKitManager: CloudKitManager = CloudKitManager()
+    @State private var navigateToProfilePreview = false
 
     @State private var imageURL: URL?
 
@@ -109,6 +110,9 @@ struct FirstPhotoView: View {
                 .disabled(imageURL == nil)
             }
             .scrollIndicators(.hidden)
+            NavigationLink(destination: ProfilePreviewView(), isActive: $navigateToProfilePreview) {
+                EmptyView()
+            }
             NavigationLink(destination: ProfilePreviewView()) {
                 Text("Next")
                     .bold()
@@ -152,6 +156,7 @@ struct FirstPhotoView: View {
                     isUploading = false
                     uploadProgress = 0.0
                     imageURL = nil
+                    navigateToProfilePreview = true
                 }
             }
         }
