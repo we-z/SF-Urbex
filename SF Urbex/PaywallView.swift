@@ -78,7 +78,7 @@ struct PaywallView: View {
                     .padding()
                 }
             }
-            
+            .scrollIndicators(.hidden)
             VStack {
                 Divider()
                     .shadow(color: .black, radius: 1, x: 0, y: 0)
@@ -102,10 +102,10 @@ struct PaywallView: View {
                         .cornerRadius(60)
                         .padding([.horizontal])
                 }
-                Text("Restore Purchase")
-                    .font(.title3)
+                Text("Restore Purchase | Terms | Privacy")
+                    .font(.headline)
                     .padding(6)
-                    .foregroundColor(.black)
+                    .foregroundColor(.gray)
             }
             .background(.white)
             
