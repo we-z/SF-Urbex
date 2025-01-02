@@ -1,5 +1,5 @@
 //
-//  CreateBioView.swift
+//  CreateUsernameView.swift
 //  Hushpost
 //
 //  Created by Wheezy Capowdis on 1/1/25.
@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct CreateBioView: View {
+struct CreateUsernameView: View {
     @State var username: String = ""
     var body: some View {
         VStack{
-            Text("Write a Bio")
+            Text("Create Username")
                 .bold()
                 .font(.largeTitle)
                 .padding()
-            Text("Tell us about yourself and write as much as you would like. You can always change it later or press Next to skip.")
+            Text("Pick a username for your new account. You can always change it later.")
                 .multilineTextAlignment(.center)
                 .padding()
-            TextField("Bio", text: $username, axis: .vertical)
+            TextField("Username", text: $username)
                 .textFieldStyle(.plain)
                 .padding()
                 .font(.title3)
@@ -37,6 +37,7 @@ struct CreateBioView: View {
                 .foregroundColor(.white)
                 .background(Color.blue)
                 .cornerRadius(15)
+                .opacity(username.isEmpty ? 0.5 : 1)
                 .padding()
             Spacer()
         }
@@ -45,5 +46,5 @@ struct CreateBioView: View {
 }
 
 #Preview {
-    CreateBioView()
+    CreateUsernameView()
 }
