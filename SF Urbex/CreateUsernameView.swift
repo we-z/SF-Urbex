@@ -45,6 +45,11 @@ struct CreateUsernameView: View {
             .navigationTitle("Create Username")
             .background(Color.primary.colorInvert().ignoresSafeArea())
         }
+        .onAppear {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundEffect = UIBlurEffect(style: .systemThickMaterial)
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
 }
 
