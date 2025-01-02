@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CreateBioView: View {
-    @State var username: String = ""
+    @State var bio: String = ""
     var body: some View {
         VStack{
             Text("Write a Bio")
                 .bold()
                 .font(.largeTitle)
                 .padding()
-            Text("Tell us about yourself and write as much as you would like. You can always change it later or press Next to skip.")
+            Text("Write as much as you would like. You can always change it later or press Next to skip.")
                 .multilineTextAlignment(.center)
                 .padding()
-            TextField("Bio", text: $username, axis: .vertical)
+            TextField("Bio", text: $bio, axis: .vertical)
                 .textFieldStyle(.plain)
                 .padding()
                 .font(.title3)
