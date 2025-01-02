@@ -44,5 +44,7 @@ struct CreateBioView: View {
 }
 
 #Preview {
-    CreateBioView()
+    NavigationView {
+        CreateBioView()
+    }
 }

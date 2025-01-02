@@ -22,11 +22,14 @@ struct ProfilePreviewView: View {
                 .multilineTextAlignment(.center)
             Spacer()
         }
+        .navigationTitle("Profile")
         .padding()
         .padding()
     }
 }
 
 #Preview {
-    ProfilePreviewView()
+    NavigationView {
+        ProfilePreviewView()
+    }
 }

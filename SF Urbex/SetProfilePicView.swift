@@ -51,5 +51,7 @@ struct SetProfilePicView: View {
 }
 
 #Preview {
-    SetProfilePicView()
+    NavigationView {
+        SetProfilePicView()
+    }
 }
