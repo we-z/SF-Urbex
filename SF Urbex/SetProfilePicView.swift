@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct SetProfilePicView: View {
-    @State var done: Bool = false
     var body: some View {
         VStack{
-            Text("Set Profile Picture")
-                .bold()
-                .font(.largeTitle)
-                .padding()
             Text("You can always change your picture later or press Next to skip.")
                 .multilineTextAlignment(.center)
                 .padding()
@@ -37,11 +32,7 @@ struct SetProfilePicView: View {
                     }
                 }
             }
-            Button {
-                withAnimation(.easeInOut) {
-                    done = true
-                }
-            } label: {
+            NavigationLink(destination: ProfilePreviewView()) {
                 Text("Next")
                     .bold()
                     .font(.title3)
@@ -54,8 +45,8 @@ struct SetProfilePicView: View {
             }
             Spacer()
         }
+        .navigationTitle("Set Profile Picture")
         .background(Color.primary.colorInvert().ignoresSafeArea())
-        .offset(x: done ? -500 : 0)
     }
 }
 
