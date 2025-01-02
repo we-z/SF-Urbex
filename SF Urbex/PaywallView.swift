@@ -42,28 +42,70 @@ struct PaywallView: View {
                         .font(.body)
                         .multilineTextAlignment(.center)
                         .padding()
-                }
-            }
-            Text("14.99 / month")
-                .font(.title)
-                .padding()
-                .foregroundColor(.white)
-                .cornerRadius(21)
-            Button{
-                withAnimation(.easeInOut) {
-                    done = true
-                }
-            } label: {
-                Text("Continue")
-                    .bold()
-                    .font(.title)
-                    .padding()
+                    VStack{
+                        HStack{
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding()
+                            Spacer()
+                        }
+                        HStack{
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding()
+                            Spacer()
+                        }
+                        HStack{
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding()
+                            Spacer()
+                        }
+                        HStack{
+                            Text("Features")
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding()
+                            Spacer()
+                        }
+                    }
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(.blue)
-                    .background(Color.white)
-                    .cornerRadius(60)
+                    .background(.white)
+                    .cornerRadius(15)
                     .padding()
+                }
             }
+            VStack {
+                Text("1 month free trial, then 14.99 / month")
+                    .bold()
+                    .font(.title3)
+                    .padding()
+                    .foregroundColor(.black)
+                Button{
+                    withAnimation(.easeInOut) {
+                        done = true
+                    }
+                } label: {
+                    Text("Continue")
+                        .bold()
+                        .font(.title)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                        .background(Color.blue)
+                        .cornerRadius(60)
+                        .padding([.horizontal])
+                }
+                Text("Restore Purchase")
+                    .font(.title3)
+                    .padding(6)
+                    .foregroundColor(.black)
+            }
+            .background(.white)
+            
         }
         .background(Color.blue.ignoresSafeArea())
         .offset(x: done ? -500 : 0)
