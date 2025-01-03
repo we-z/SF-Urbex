@@ -34,12 +34,14 @@ struct WelcomeView: View {
                 Text("Welcome to Hushpost!")
                     .font(.largeTitle)
                     .bold()
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
                 
                 // Description
                 Text("Join the private photo sharing network. Explore and share photos privately fully E2E encrypted!")
                     .font(.body)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
             }

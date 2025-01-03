@@ -52,12 +52,14 @@ struct PaywallView: View {
                     Text("Privacy is priceless")
                         .font(.largeTitle)
                         .bold()
+                        .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
                     
                     // Description
                     Text("Secure your most valuable memories. Explore and share photos privately.")
                         .font(.body)
+                        .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
                     
