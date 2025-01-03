@@ -18,6 +18,8 @@ class CloudKitManager: ObservableObject {
             )
         ]
     
+    @Published var doneOnboarding = false
+    
     private let database = CKContainer.default().publicCloudDatabase
     
     // MARK: - Combined Fetch

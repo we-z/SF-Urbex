@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PaywallView: View {
     @State var done: Bool = false
-
     // Features of the private photo-sharing app and their respective icons
     let featuresWithIcons = [
         ("End-to-End Encryption", "lock.fill"),
@@ -125,7 +124,7 @@ struct PaywallView: View {
             
         }
         .background(Color.blue.ignoresSafeArea())
-        .offset(y: done ? 1000 : 0)
+        .offset(x: done ? -500 : 0)
     }
 }
 
