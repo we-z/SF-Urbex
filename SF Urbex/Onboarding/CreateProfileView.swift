@@ -19,6 +19,11 @@ struct CreateProfileView: View {
             }
             .offset(x: done ? -500 : 0)
             .animation(.easeInOut(duration: 0.3), value: done)
+            .onAppear {
+                let appearance = UINavigationBarAppearance()
+                appearance.backgroundEffect = UIBlurEffect(style: .systemThickMaterial)
+                UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            }
         }
     }
 }
