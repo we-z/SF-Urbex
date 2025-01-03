@@ -153,7 +153,7 @@ struct ProfilePreviewView: View {
 
     var body: some View {
         VStack {
-            ScrollView {
+            Spacer()
                 VStack {
                     Circle()
                         .frame(width: 150, height: 150)
@@ -168,8 +168,9 @@ struct ProfilePreviewView: View {
                 }
                 .padding()
                 .padding()
+            Spacer()
+            Spacer()
                 // Add posts or other content here
-            }
             Button {
                 done = true
             } label: {
