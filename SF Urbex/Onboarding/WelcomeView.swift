@@ -21,7 +21,7 @@ struct WelcomeView: View {
                         .frame(width: 150, height: 150)
                         .foregroundColor(.white)
                         .padding()
-                    Image(systemName: "photo.fill")
+                    Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 42, height: 42)

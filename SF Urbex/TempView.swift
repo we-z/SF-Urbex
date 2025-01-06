@@ -22,10 +22,10 @@ struct TempView: View {
                 .font(.system(size: 250))
                 .offset(y: -15)
                 .shadow(color: .black, radius: 0.1)
-            Image(systemName: "photo.fill")
+            Image(systemName: "photo")
                 .foregroundColor(.white)
                 .font(.system(size: 110))
-                .offset(y: 35)
+                .offset(y: 34)
             
         }
     }
