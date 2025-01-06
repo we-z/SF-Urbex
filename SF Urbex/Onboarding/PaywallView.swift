@@ -21,7 +21,7 @@ struct PaywallView: View {
         ("FaceID-Protection", "faceid"),
         ("Open Source Code", "chevron.left.slash.chevron.right"),
         ("Verified Secure Builds", "checkmark.shield.fill"),
-        ("No Screenshots", "camera.aperture"),
+        ("No Screenshots", "photo"),
         ("No Screenrecordings", "video.slash.fill"),
         ("Exclusive Membership", "crown.fill"),
     ]
@@ -38,10 +38,10 @@ struct PaywallView: View {
                             .frame(width: 150, height: 150)
                             .foregroundColor(.white)
                             .padding()
-                        Image(systemName: "camera.fill")
+                        Image(systemName: "photo.fill")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 36, height: 36)
+                            .frame(width: 42, height: 42)
                             .offset(x: 0, y: 12)
                             .foregroundColor(.white)
                             .padding()
